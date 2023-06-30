@@ -16,20 +16,6 @@ int main(void) {
     }
     free(model.vertices);
   }
-
-
-  // size_t file_counter = 50;
-  // char *line = (char *)malloc(file_counter * sizeof(file_counter));
-  // FILE *fp;
-  // fp = fopen("test_cat.obj", "r");
-  // if (fp != NULL) {
-  //   while (fgets(line, sizeof(line), fp) != NULL) {
-  //     printf("%s", line);
-  //   }
-  // }
-
-
-
   return 0;
 }
 
@@ -38,38 +24,17 @@ int parser(char *filename, data *model, size_t *real_count_of_vertices, size_t *
   FILE *fp;
   fp = fopen(filename, "r");
   if (fp != NULL) {
-    //char line[100];
-    size_t file_counter = 50;
-    //char ch = getc(fp);
-    // while(ch != EOF && ch != '\n') {
-    //   ++file_counter;
-    //   ch = getc(fp);
-    // }
-    //fseek(fp, -(file_counter * sizeof(char)), SEEK_CUR);
-    char *line = (char *)malloc((file_counter + 1) * sizeof(char));
+    size_t line_size = count_line_size(fp);
+    size_t next_line_size = line_size;
+    char *line = (char *)malloc((line_size + 1) * sizeof(char));
     size_t counter = 0;
     size_t counter_facet = 0;
-    //double x, y, z;
-    char v[2];
-    //char *estr;
-    //estr = fgets(line, sizeof(line), fp);
-    while (fgets(line, sizeof(line), fp) != NULL) {
-      v[0] = '\0';
-      sscanf(line, "%s", v);
-      if (strcmp(v, "v") == 0) {
-        //option_v(size_t *counter, );
-        double x, y, z;
-        ++counter;
-        sscanf(line, "%s%lf%lf%lf", v, &x, &y, &z);
+    
+    while (fgets(line, line_size + 1, fp) != NULL && next_line_size) {
 
-        if (counter >= model->count_of_vertexes) {  // ? >
-          model->count_of_vertexes *= 2;
-          model->vertices = (vertice *)realloc(model->vertices, model->count_of_vertexes * sizeof(vertice));
-        }
-          model->vertices[counter].x = x;
-          model->vertices[counter].y = y;
-          model->vertices[counter].z = z;
-      } else if (strcmp(v, "f") == 0) {
+      if (line[0] == 'v') {  
+        ExitCode = scan_vertice(&counter, line, model);
+      } else if (line[0] == 'f') {
         //  обработка facet' ов
         if (counter_facet >= model->count_of_facets) {
           model->count_of_facets *= 2;
@@ -92,7 +57,7 @@ int parser(char *filename, data *model, size_t *real_count_of_vertices, size_t *
                   }
                   
                 }
-                if (counter_numbers_of_vertexes_in_facets >model->polygons->numbers_of_vertexes_in_facets) {
+                if (counter_numbers_of_vertexes_in_facets >= model->polygons->numbers_of_vertexes_in_facets) {
                   model->polygons->numbers_of_vertexes_in_facets *= 2;
                   model->polygons->vertices = (int *)realloc(model->polygons->vertices,model->polygons->numbers_of_vertexes_in_facets * sizeof(int));
                 }
@@ -106,6 +71,12 @@ int parser(char *filename, data *model, size_t *real_count_of_vertices, size_t *
           }
       }
       //estr = fgets(line, sizeof(line), fp);
+      //fseek(fp, 1, SEEK_CUR);
+      next_line_size = count_line_size(fp);
+      if (next_line_size > line_size) {
+        line = (char *)realloc(line, (next_line_size + 1) * sizeof(char));
+        line_size = next_line_size;
+      }
     }
     *real_count_of_vertices = counter;
     *real_count_of_facet = counter_facet;
@@ -119,6 +90,7 @@ int parser(char *filename, data *model, size_t *real_count_of_vertices, size_t *
     if (fclose(fp) == EOF) {
       ExitCode = ERROR;
     }
+    free(line);
   } else {
     ExitCode = ERROR;
     getchar();
@@ -164,4 +136,41 @@ void open_and_parse(data *model) {
     printf("\nERROR\n");
   }
   free_vertices_in_facets(model);
+}
+
+size_t count_line_size(FILE *fp) {
+  size_t counter = 1;
+  char ch = getc(fp);
+  while(ch != EOF && ch != '\n') {
+    ++counter;
+    ch = getc(fp);
+  }
+  if (ch == EOF) {
+    counter = 0;
+  }
+  fseek(fp, -((counter)* sizeof(char)), SEEK_CUR);
+  return counter;
+}
+
+int scan_vertice(size_t *counter, char *line, data *model) {
+  int ExitCode = OK;
+  double x, y, z;
+  ++*counter;
+  char v[2];
+  v[0] = '\0';
+      //sscanf(line, "%s", v);
+  sscanf(line, "%s%lf%lf%lf", v, &x, &y, &z);
+
+  if (*counter >= model->count_of_vertexes) {  // ? >
+    model->count_of_vertexes *= 2;
+    model->vertices = (vertice *)realloc(model->vertices, model->count_of_vertexes * sizeof(vertice));
+  }
+  if (model->vertices != NULL) {
+    model->vertices[*counter].x = x;
+    model->vertices[*counter].y = y;
+    model->vertices[*counter].z = z;
+  } else {
+    ExitCode = ERROR;
+  }
+  return ExitCode;
 }

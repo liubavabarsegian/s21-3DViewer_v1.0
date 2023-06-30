@@ -33,6 +33,9 @@ void free_vertices_in_facets(data *model);
 
 void open_and_parse(data *model);
 
+size_t count_line_size(FILE *fp);
+int scan_vertice(size_t *counter, char *line, data *model);
+
 // print
 void print_vertexes(data *model);
 void print_polygon(data *model);
