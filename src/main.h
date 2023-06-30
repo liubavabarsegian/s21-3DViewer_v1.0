@@ -27,6 +27,14 @@ typedef struct data {
 #define  OK 0
 #define ERROR 404
 
-int parser(char *filename, data *model, size_t *real_count_of_vertices);
+int parser(char *filename, data *model, size_t *real_count_of_vertices, size_t *real_count_of_facet);
+
+void free_vertices_in_facets(data *model);
+
+void open_and_parse(data *model);
+
+// print
+void print_vertexes(data *model);
+void print_polygon(data *model);
 
 #endif  //  MAIN_H_
