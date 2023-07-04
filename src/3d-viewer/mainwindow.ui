@@ -84,7 +84,7 @@ border-radius: 10px;
      <bool>false</bool>
     </property>
     <property name="pixmap">
-     <pixmap>imgs/pngwing.com.png</pixmap>
+     <pixmap>imgs/folder.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
