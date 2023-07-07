@@ -63,15 +63,15 @@ s21_matrix create_af_matrix(double x, double y, double z) {
     return result;
 }
 
-// s21_matrix create_resize_matrix(double x, double y, double z) {
-//     s21_matrix result = {0};
-//     s21_create_matrix(4, 4, &result);
-//     result.matrix[0][0] = x;
-//     result.matrix[1][1] = y;
-//     result.matrix[2][2] = z;
-//     result.matrix[3][3] = 1;
-//     return result;
-// }
+s21_matrix create_resize_matrix(double x, double y, double z) {
+    s21_matrix result = {0};
+    s21_create_matrix(4, 4, &result);
+    result.matrix[0][0] = x;
+    result.matrix[1][1] = y;
+    result.matrix[2][2] = z;
+    result.matrix[3][3] = 1;
+    return result;
+}
 
 s21_matrix create_x_rotation_matrix(double x) {
     s21_matrix result = {0};
@@ -122,15 +122,15 @@ void moving(s21_data *data, double x, double y, double z) {
     s21_remove_matrix(&result);
 }
 
-// void resize(s21_data *data, double x, double y, double z) {
-//     s21_matrix result = create_resize_matrix(x, y, z);
-//     for (int i = 0; i < data->count_vert; ++i) {
-//         s21_matrix temp = data->matrix_3d[i];
-//         data->matrix_3d[i] = s21_mult_matrix(&result, &(data->matrix_3d[i]));
-//         s21_remove_matrix(&temp);
-//     }
-//     s21_remove_matrix(&result);
-// }
+void resize(s21_data *data, double x, double y, double z) {
+    s21_matrix result = create_resize_matrix(x, y, z);
+    for (int i = 0; i < data->count_vert; ++i) {
+        s21_matrix temp = data->matrix_3d[i];
+        data->matrix_3d[i] = s21_mult_matrix(&result, &(data->matrix_3d[i]));
+        s21_remove_matrix(&temp);
+    }
+    s21_remove_matrix(&result);
+}
 
 void rotation(s21_data *data, double x, double y, double z) {
     s21_matrix x_matrix = create_x_rotation_matrix(x);
