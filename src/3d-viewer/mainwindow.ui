@@ -45,7 +45,7 @@ border-radius: 20px;</string>
      <string>3D VIEWER</string>
     </property>
    </widget>
-   <widget class="QOpenGLWidget" name="viewerWidget">
+   <widget class="OpenGL" name="viewerWidget">
     <property name="geometry">
      <rect>
       <x>30</x>

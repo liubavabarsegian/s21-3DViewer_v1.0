@@ -10,10 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    opengl.cpp \
+    parser.c
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    opengl.h \
+    parser.h
 
 FORMS += \
     mainwindow.ui
