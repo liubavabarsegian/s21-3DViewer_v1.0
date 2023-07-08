@@ -1,36 +1,36 @@
 #include "opengl.h"
 
 OpenGL::OpenGL(QWidget *parent)
-    :QOpenGLWidget(parent)
+    :QGLWidget(parent)
 {
 
 }
 
 void OpenGL::initializeGL()
 {
+    glEnable(GL_DEPTH_TEST);
+//   glMatrixMode(GL_PROJECTION);
+    //загрузка единичной матрицы
+//   glLoadIdentity();
+   //преобразование матрицы так, чтобы
+   //создавалась ортогональная проекци
+//   glOrtho(-1, 1, -1, 1, 1, 2);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, 800, 600, 0, 0, 1);
+   //для отдаления и приближения изображения
+   glFrustum(-1, 1, -1, 1, 1, 3);
 }
 
 void OpenGL::paintGL()
 {
-    float r, g, b, a = 1.0f;
-    initializeOpenGLFunctions();
-    qColorToRGB(Qt::red, r, g, b);
-    glClearColor(Qt::red, Qt::white, Qt::yellow, Qt::blue);
-    glLineWidth(2);
-     glEnable(GL_LINE_STIPPLE);
-     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-     glBegin(GL_TRIANGLE_FAN);
-      glColor3d(0,0,100);
-      glVertex3d(400,200,0);
-      glVertex3d(260,280,0);
-      glVertex3d(200,200,0);
-      glVertex3d(300,110,0);
-     glEnd();
-     glDisable(GL_LINE_STIPPLE);
+    glClearColor(0, 1, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+//     загрузка в стек единичной матрицы
+    glLoadIdentity();
+    glTranslatef(0, 0, -2);
+    glRotatef(xRot, 1, 0, 0);
+    glRotatef(yRot, 0, 1, 0);
+    drawModel(0.5);
 }
 
 void OpenGL::resizeGL(int w, int h)
@@ -38,15 +38,47 @@ void OpenGL::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 }
 
-void OpenGL::qColorToRGB(const QColor &C, float &r, float &g, float &b) const
+void OpenGL::drawModel(float a)
 {
-    r = normalize_0_1(C.red(), 1.0f, 255.0f);
-    g = normalize_0_1(C.green(), 1.0f, 255.0f);
-    b = normalize_0_1(C.blue(), 1.0f, 255.0f);
+    float arr_cube[] = {
+        -a, -a, a,   a, -a, a,     a, a, a,     -a, a, a,
+        a, -a, -a,   -a, -a, -a,   -a, a, -a,   a, a, -a,
+        -a, -a, -a,   -a, -a, a,   -a, a, a,    -a, a, -a,
+        a, -a, a,    a, -a, -a,    a, a, -a,    a, a, a,
+        -a, -a, a,    a, -a, a,    a, -a, -a,    -a, -a, -a,
+        -a, a, a,    a, a, a,     a, a, -a,     -a, a, -a
+    };
+
+    float color_arr[] = {
+        1, 0, 0,       1, 0, 0,      1, 0, 0,      1, 0, 0,
+        0, 0, 1,       0, 0, 1,      0, 0, 1,      0, 0, 1,
+        1, 1, 0,       1, 1, 0,      1, 1, 0,      1, 1, 0,
+        0, 1, 1,       0, 1, 1,      0, 1, 1,      0, 1, 1,
+        1, 0.5, 0.5,   1, 0.5, 0.5,  1, 0.5, 0.5,  1, 0.5, 0.5
+    };
+
+    //glVertexPointer(количество координат, тип, смещение, адрес)
+    glVertexPointer(3, GL_FLOAT, 0, &arr_cube);
+    //разрешение использования вершинного буфера
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glColorPointer(3, GL_FLOAT, 0, &color_arr);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+        // (указываем, что будем рисовать, первый элемент, сколько всего вершин)
+        glDrawArrays(GL_QUADS, 0, 24);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-float OpenGL::normalize_0_1(float val, float min, float max) const
+void OpenGL::mousePressEvent(QMouseEvent *mo)
 {
-    return (val - min) / (max - min);
+    mousePosition = mo->pos();
 }
 
+void OpenGL::mouseMoveEvent(QMouseEvent *mo)
+{
+    xRot = 1 / M_PI * (mo->pos().y() - mousePosition.y());
+    yRot = 1 / M_PI * (mo->pos().x() - mousePosition.x());
+    updateGL();
+}

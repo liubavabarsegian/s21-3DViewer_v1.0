@@ -1,6 +1,6 @@
 #include "parser.h"
 
-int main_parser(void) {
+int parser_main(void) {
   data model;
   model.count_of_vertices = 10;
   model.count_of_facets = 10;
@@ -45,7 +45,7 @@ void free_vertices_in_facets(data *model) {
 }
 
 void open_and_parse(data *model) {
-  char filename[13] = "test_cat.obj";
+  char filename[] = "../objs/test_cat.obj";
   size_t vertice_counter = 0;
   size_t facet_counter = 0;
   int ExitCode = parser(filename, model, &vertice_counter, &facet_counter);

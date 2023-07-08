@@ -1,20 +1,30 @@
 #ifndef OPENGL_H
 #define OPENGL_H
 
+#include <QtOpenGL>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 
-class OpenGL : public QOpenGLWidget, public QOpenGLFunctions
+//sudo apt-get install freeglut3-dev
+#include<GL/glut.h>
+
+class OpenGL : public QGLWidget
 {
     Q_OBJECT;
 public:
     OpenGL(QWidget *parent = nullptr);
-protected:
+private:
+    float xRot, yRot, zRot;
+    QPoint mousePosition;
+    QTimer timer;
     virtual void initializeGL() override;
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
-    void qColorToRGB(const QColor &C, float &r, float &g, float &b) const;
-    float normalize_0_1(float val, float min, float max) const;
+    virtual void mousePressEvent(QMouseEvent *) override;
+    virtual void mouseMoveEvent(QMouseEvent  *) override;
+    void drawModel(float a);
+public slots:
+
 };
 
 #endif // OPENGL_H
