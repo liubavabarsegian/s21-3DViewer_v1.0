@@ -1,10 +1,7 @@
 #include "opengl.h"
 
 OpenGL::OpenGL(QWidget *parent)
-    :QGLWidget(parent)
-{
-
-}
+    :QGLWidget(parent) {}
 
 void OpenGL::initializeGL()
 {
@@ -17,7 +14,7 @@ void OpenGL::initializeGL()
 //   glOrtho(-1, 1, -1, 1, 1, 2);
 
    //для отдаления и приближения изображения
-   glFrustum(-1, 1, -1, 1, 1, 3);
+    glFrustum(-1, 1, -1, 1, 1, 3);
 }
 
 void OpenGL::paintGL()
@@ -27,7 +24,7 @@ void OpenGL::paintGL()
     glMatrixMode(GL_MODELVIEW);
 //     загрузка в стек единичной матрицы
     glLoadIdentity();
-    glTranslatef(0, 0, -2);
+//    glTranslatef(0, 0, -2);
     glRotatef(xRot, 1, 0, 0);
     glRotatef(yRot, 0, 1, 0);
     drawModel(0.5);
