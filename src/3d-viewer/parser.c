@@ -1,25 +1,5 @@
 #include "parser.h"
 
-int parser_main(void) {
-  data model;
-  model.count_of_vertices = 10;
-  model.count_of_facets = 10;
-  model.vertices = (vertice *)malloc(model.count_of_vertices * sizeof(vertice));
-
-  if (model.vertices != NULL) {
-    model.polygons = (polygon_t *)malloc(model.count_of_facets * sizeof(polygon_t));
-    if (model.polygons != NULL) {
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      open_and_parse(&model);
-      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      free(model.polygons);
-    }
-    free(model.vertices);
-  }
-  
-  return 0;
-}
-
 void print_vertices(data *model) {
   for (size_t i = 1; i <= model->count_of_vertices; ++i) {
     //printf("%ld\t", i + 1);
@@ -52,9 +32,9 @@ void open_and_parse(data *model) {
   if (ExitCode == OK) {
   model->count_of_vertices = vertice_counter;
   model->count_of_facets = facet_counter;
-    print_vertices(model);
-    printf("\n");
-    print_polygon(model);
+   print_vertices(model);
+   printf("\n");
+   print_polygon(model);
   } else {
     printf("\nERROR\n");
   }
@@ -130,7 +110,7 @@ int scan_facet(size_t *facets_counter, FILE *fp, data *model) {
     ExitCode = IS_NOT_A_NUMBER;
     letter = getc(fp);
   }
-} 
+}
   return ExitCode;
 }
 
@@ -141,7 +121,7 @@ int found_number(char letter, size_t *count_vertice_in_facet, size_t *facets_cou
   while (letter != '/' && letter != ' ' && letter != '\n') {
     number *= 10;
     number += letter - '0';
-    letter = getc(fp);    
+    letter = getc(fp);
   }
   if (*count_vertice_in_facet >= model->polygons[*facets_counter].numbers_of_vertices_in_facets) {
     model->polygons[*facets_counter].numbers_of_vertices_in_facets *= 2;

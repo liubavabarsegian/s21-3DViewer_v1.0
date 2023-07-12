@@ -1,5 +1,5 @@
-#ifndef MAIN_H_
-#define MAIN_H_
+#ifndef PARSER_H_
+#define PARSER_H_
 
 #include <stdio.h>
 #include <string.h>
@@ -27,12 +27,11 @@ typedef struct data {
 #define ERROR 404
 #define IS_NOT_A_NUMBER 123
 
-int main_parser(void);
 int parser(char *filename, data *model, size_t *count_of_vertices, size_t *count_of_facet);
 
 void free_vertices_in_facets(data *model);
 
-void open_and_parse(data *model);
+//void open_and_parse(data *model);
 
 int scan_vertices(FILE *fp, data *model, size_t *count_of_vertices);
 int scan_facets(FILE *fp, data *model, size_t *count_of_facet);
