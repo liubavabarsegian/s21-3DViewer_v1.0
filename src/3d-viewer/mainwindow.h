@@ -15,8 +15,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
+public slots:
+    void circleVerticles();
+    void squareVerticles();
+    void noVerticles();
+    void resizeVerticles();
+    void resizeEdges();
+    void edgesSolid();
+    void edgesDashed();
 };
 #endif // MAINWINDOW_H

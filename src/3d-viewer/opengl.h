@@ -16,17 +16,23 @@ class OpenGL : public QGLWidget
 public:
     OpenGL(QWidget *parent = nullptr);
     ~OpenGL();
+    virtual void paintGL() override;
+    int pointSize;
+    int edgeSize;
+    bool noVerticles;
+    bool dashed;
 private:
     float xRot, yRot, zRot;
     QPoint mousePosition;
     QTimer timer;
     struct data model;
     virtual void initializeGL() override;
-    virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
     virtual void mousePressEvent(QMouseEvent *) override;
     virtual void mouseMoveEvent(QMouseEvent  *) override;
     void drawModel(float a);
+    void drawVerticles();
+    void drawLines();
 public slots:
 
 };

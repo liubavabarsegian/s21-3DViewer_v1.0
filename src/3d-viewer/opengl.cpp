@@ -1,7 +1,12 @@
 #include "opengl.h"
 
 OpenGL::OpenGL(QWidget *parent)
-    :QGLWidget(parent) {}
+    :QGLWidget(parent) {
+    pointSize = 10;
+    edgeSize = 5;
+    noVerticles = false;
+    dashed = false;
+}
 
 OpenGL::~OpenGL()
 {
@@ -44,8 +49,19 @@ void OpenGL::paintGL()
     glRotatef(xRot, 1, 0, 0);
     glRotatef(yRot, 0, 1, 0);
     glScalef(0.001, 0.001, 0.001);
-//    glFlush();
-    drawModel(100);
+    glPointSize(pointSize);
+    if (noVerticles)
+        glPointSize(1);
+    glLineWidth(edgeSize);
+    if (dashed)
+    {
+        glLineStipple(10, 0xAAAA);
+        glEnable(GL_LINE_STIPPLE);
+    }
+    else
+        glDisable(GL_LINE_STIPPLE);
+    drawVerticles();
+    drawLines();
 }
 
 void OpenGL::resizeGL(int w, int h)
@@ -53,17 +69,8 @@ void OpenGL::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 }
 
-
-void OpenGL::drawModel(float a)
-{
-    float verticles[] = {
-            -a, -a, a,   a, -a, a,     a, a, a,     -a, a, a,
-            a, -a, -a,   -a, -a, -a,   -a, a, -a,   a, a, -a,
-            -a, -a, -a,   -a, -a, a,   -a, a, a,    -a, a, -a,
-            a, -a, a,    a, -a, -a,    a, a, -a,    a, a, a,
-            -a, -a, a,    a, -a, a,    a, -a, -a,    -a, -a, -a,
-            -a, a, a,    a, a, a,     a, a, -a,     -a, a, -a
-        };
+//void OpenGL::drawModel(float a)
+//{
 //    //glVertexPointer(количество координат, тип, смещение, адрес)
 //    glVertexPointer(3, GL_FLOAT, 0, &arr_cube);
 //    //разрешение использования вершинного буфера
@@ -76,28 +83,19 @@ void OpenGL::drawModel(float a)
 //        glDrawArrays(GL_QUADS, 0, 24);
 //    glDisableClientState(GL_COLOR_ARRAY);
 //    glDisableClientState(GL_VERTEX_ARRAY);
+//}
 
-    glPointSize(20);
-    //сглаживание вершин
-    glEnable(GL_POINT_SMOOTH);
-
-    glLineWidth(5);
-    //соединяет линии по 2 точкам
-    glBegin(GL_LINES);
-          //X_axis red
-         glColor3f( 1.0, 0.0, 0.0);
-         glVertex3f(0.0, 0.0, 0.0);
-         glVertex3f(1.0, 0.0, 0.0);
-         //Y_axis green
-         glColor3f (0.0, 1.0, 0.0);
-         glVertex3f(0.0, 0.0, 0.0);
-         glVertex3f(0.0, 1.0, 0.0);
-         //Z_axis blue
-         glColor3f (0.0, 0.0, 1.0);
-         glVertex3f(0.0, 0.0, 0.0);
-         glVertex3f(0.0, 0.0, 1.0);
-    glEnd();
-
+void OpenGL::drawVerticles()
+{
+    float a = 100;
+    float verticles[] = {
+            -a, -a, a,   a, -a, a,     a, a, a,     -a, a, a,
+            a, -a, -a,   -a, -a, -a,   -a, a, -a,   a, a, -a,
+            -a, -a, -a,   -a, -a, a,   -a, a, a,    -a, a, -a,
+            a, -a, a,    a, -a, -a,    a, a, -a,    a, a, a,
+            -a, -a, a,    a, -a, a,    a, -a, -a,    -a, -a, -a,
+            -a, a, a,    a, a, a,     a, a, -a,     -a, a, -a
+        };
     //рисует вершины
     glBegin(GL_POINTS);
         for (size_t i = 0; i <  24; i++)
@@ -110,9 +108,21 @@ void OpenGL::drawModel(float a)
             qDebug("x: %f y: %f z: %f", x, y, z);
         }
     glEnd();
+}
 
+void OpenGL::drawLines()
+{
+    float a = 100;
+    float verticles[] = {
+            -a, -a, a,   a, -a, a,     a, a, a,     -a, a, a,
+            a, -a, -a,   -a, -a, -a,   -a, a, -a,   a, a, -a,
+            -a, -a, -a,   -a, -a, a,   -a, a, a,    -a, a, -a,
+            a, -a, a,    a, -a, -a,    a, a, -a,    a, a, a,
+            -a, -a, a,    a, -a, a,    a, -a, -a,    -a, -a, -a,
+            -a, a, a,    a, a, a,     a, a, -a,     -a, a, -a
+        };
     //соединяет линии по точкам подряд
-    glBegin(GL_LINE_STRIP);
+    glBegin(GL_LINE_LOOP);
         for (size_t i = 0; i <  24; i++)
         {
             float x = verticles[i];
@@ -123,18 +133,6 @@ void OpenGL::drawModel(float a)
             qDebug("x: %f y: %f z: %f", x, y, z);
         }
     glEnd();
-
-//    glBegin(GL_POINTS);
-
-//        for (size_t i = 0; i <  model.count_of_vertices; i++)
-//        {
-//            float x = model.vertices[i].x;
-//            float y = model.vertices[i].y;
-//            float z = model.vertices[i].z;
-//            glVertex3f(x, y, z);
-//            qDebug("x: %f y: %f z: %f", x, y, z);
-//        }
-//    glEnd();
 }
 
 void OpenGL::mousePressEvent(QMouseEvent *mo)
