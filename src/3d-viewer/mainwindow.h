@@ -25,5 +25,8 @@ public slots:
     void resizeEdges();
     void edgesSolid();
     void edgesDashed();
+    void verticlesColor();
+    void edgesColor();
+    void backgroundColor();
 };
 #endif // MAINWINDOW_H

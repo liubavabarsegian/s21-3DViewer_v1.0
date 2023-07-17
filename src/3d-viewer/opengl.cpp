@@ -6,6 +6,7 @@ OpenGL::OpenGL(QWidget *parent)
     edgeSize = 5;
     noVerticles = false;
     dashed = false;
+    backgroundColor = Qt::white;
 }
 
 OpenGL::~OpenGL()
@@ -41,7 +42,7 @@ void OpenGL::initializeGL()
 
 void OpenGL::paintGL()
 {
-    glClearColor(0, 1, 1, 0);
+    glClearColor(backgroundColor.redF(), backgroundColor.greenF(), backgroundColor.blueF(), 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
 //     загрузка в стек единичной матрицы
@@ -60,7 +61,9 @@ void OpenGL::paintGL()
     }
     else
         glDisable(GL_LINE_STIPPLE);
+    glColor3d(verticlesColor.redF(), verticlesColor.greenF(), verticlesColor.blueF());
     drawVerticles();
+    glColor3d(edgesColor.redF(), edgesColor.greenF(), edgesColor.blueF());
     drawLines();
 }
 

@@ -21,6 +21,9 @@ public:
     int edgeSize;
     bool noVerticles;
     bool dashed;
+    QColor verticlesColor;
+    QColor edgesColor;
+    QColor backgroundColor;
 private:
     float xRot, yRot, zRot;
     QPoint mousePosition;
