@@ -28,7 +28,7 @@ void OpenGL::initializeGL()
     if (model.vertices != NULL) {
       model.polygons = (polygon_t *)malloc(model.count_of_facets * sizeof(polygon_t));
       if (model.polygons != NULL) {
-        open_and_parse(&model);
+        open_and_parse(&model, file.toStdString().c_str());
         qDebug("V %d", model.count_of_vertices);
       }
     }

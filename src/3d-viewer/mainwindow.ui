@@ -65,35 +65,13 @@ border-radius: 20px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:  rgb(12, 11, 60);
-color: white;
+     <string notr="true">background-color:  rgb(153, 193, 241);
+color: rgb(22, 7, 83);
 border-radius: 10px;
 </string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>1080</x>
-      <y>90</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="pixmap">
-     <pixmap>imgs/folder.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="inputFileButton">
+   <widget class="QPushButton" name="openFileButton">
     <property name="geometry">
      <rect>
       <x>820</x>
@@ -117,7 +95,7 @@ background-color: rgb(153, 193, 241);
 border-radius: 20px;</string>
     </property>
     <property name="text">
-     <string>OPEN</string>
+     <string>DRAW MODEL</string>
     </property>
    </widget>
    <widget class="QComboBox" name="typeOfProjectionBox">
@@ -728,6 +706,60 @@ color: rgb(0, 15, 88);</string>
      <string>edges</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="inputFileButton">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>80</y>
+      <width>61</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(&quot;/imgs/folder.png&quot;);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <selectedon>imgs/folder.png</selectedon>
+     </iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
+    </property>
+   </widget>
+   <zorder>inputFileButton</zorder>
+   <zorder>label</zorder>
+   <zorder>viewerWidget</zorder>
+   <zorder>inputFile</zorder>
+   <zorder>openFileButton</zorder>
+   <zorder>typeOfProjectionBox</zorder>
+   <zorder>label_3</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>scaleSlider</zorder>
+   <zorder>label_10</zorder>
+   <zorder>label_11</zorder>
+   <zorder>label_12</zorder>
+   <zorder>label_13</zorder>
+   <zorder>label_14</zorder>
+   <zorder>XRotateSlider</zorder>
+   <zorder>YRotateSlider</zorder>
+   <zorder>ZRotateSlider</zorder>
+   <zorder>label_15</zorder>
+   <zorder>label_16</zorder>
+   <zorder>XTranslateSlider</zorder>
+   <zorder>label_17</zorder>
+   <zorder>YTranslateSlider</zorder>
+   <zorder>ZTranslateSlider</zorder>
+   <zorder>label_18</zorder>
+   <zorder>label_19</zorder>
+   <zorder>label_20</zorder>
+   <zorder>label_21</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
