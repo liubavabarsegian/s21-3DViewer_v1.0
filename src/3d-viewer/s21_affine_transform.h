@@ -6,20 +6,39 @@
 #define RETURN_WRONG_MATRIX 1
 #define RETURN_CALC_ERROR 2
 
-typedef struct facets {     // хранения полигонов(f)
-    int *vert;              // массив номеров вершин
-    int count_number_vert;  // кол-во вершин необходимых для соединения
+/**
+ - @brief Структура для хранения полигонов (f).
+ - @param vert - массив номеров вершин
+ - @param count_number_vert - количество вершин, необходимых для соединения
+ */
+typedef struct facets {
+    int *vert;
+    int count_number_vert;
 } s21_facets;
 
+/**
+ - @brief Структура для хранения данных.
+ - @param count_vert - количество вершин
+ - @param count_facets - количество полигонов
+ - @param count_edge - количество рёбер
+ - @param matrix_3d - структура матрицы
+ - @param polygons - структура хранения полигонов
+ */
 typedef struct data {
-    unsigned count_vert;    // кол-во вершин
-    unsigned count_facets;  // кол-во полигон
-    unsigned count_edge;    // кол-во рёбер
+    unsigned count_vert;
+    unsigned count_facets;
+    unsigned count_edge;
     s21_matrix *matrix_3d;
     s21_facets *polygons;
 } s21_data;
 
-typedef struct matrix {  // структура матриц
+/**
+ - @brief Структура для хранения матриц.
+ - @param matrix - представление матрицы
+ - @param rows - количество строк
+ - @param columns - количество столбцов
+ */
+typedef struct matrix {
     double **matrix;
     int rows;
     int columns;

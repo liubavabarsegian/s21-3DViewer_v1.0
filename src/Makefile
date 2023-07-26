@@ -50,8 +50,9 @@ install:
 uninstall:
 	rm -rf $(INSTALL_DIR)
 
-dvi: 
-	open dvi.html
+dvi:
+	@doxygen conf && mv html documentation
+	@open documentation/index.html
 
 dist:
 	rm -rf $(DIST_DIR)/
@@ -76,6 +77,7 @@ clean:
 	rm -rf *.o *.a *.out s21_smart_calc/.qmake.stash s21_smart_calc/*.user
 	rm -rf *.gcda *.gcno *.info *.gch
 	rm -rf test report
+	rm -rf documentation/
 
 clean_all: 
 	make clean
