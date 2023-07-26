@@ -4,11 +4,11 @@
 #include <QtOpenGL>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
+#include <QFile>
 
-//sudo apt-get install freeglut3-dev
-//#include<GL/glut.h>
-#include "parser.h"
-extern "C" void open_and_parse(data *model);
+extern "C" {
+    #include "parser.h"
+};
 
 class OpenGL : public QGLWidget
 {
@@ -24,6 +24,7 @@ public:
     QColor verticlesColor;
     QColor edgesColor;
     QColor backgroundColor;
+    QString file;
 private:
     float xRot, yRot, zRot;
     QPoint mousePosition;

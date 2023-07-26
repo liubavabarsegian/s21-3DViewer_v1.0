@@ -24,8 +24,7 @@ void free_vertices_in_facets(data *model) {
   }
 }
 
-void open_and_parse(data *model) {
-  char filename[] = "../objs/test_cat.obj";
+void open_and_parse(data *model, const char *filename) {
   size_t vertice_counter = 0;
   size_t facet_counter = 0;
   int ExitCode = parser(filename, model, &vertice_counter, &facet_counter);

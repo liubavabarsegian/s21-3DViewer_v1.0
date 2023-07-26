@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->verticlesColor, &QPushButton::clicked, this, &MainWindow::verticlesColor);
     connect(ui->edgesColor, &QPushButton::clicked, this, &MainWindow::edgesColor);
     connect(ui->backgroundColor, &QPushButton::clicked, this, &MainWindow::backgroundColor);
+    connect(ui->inputFileButton, &QPushButton::clicked, this, &MainWindow::inputFile);
+    connect(ui->openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
 }
 
 MainWindow::~MainWindow()
@@ -88,5 +90,24 @@ void MainWindow::edgesColor()
 void MainWindow::backgroundColor()
 {
     ui->viewerWidget->backgroundColor = QColorDialog::getColor();
+    ui->viewerWidget->repaint();
+}
+
+void MainWindow::inputFile()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open Image"), "../objs", tr("Image Files (*.obj)"));
+    ui->inputFile->setText(fileName);
+    qDebug("%s\n", ui->inputFile->text().toStdString().c_str());
+}
+
+void MainWindow::openFile()
+{
+    QDir dir("../imgs/");
+    if (ui->inputFile->text().contains(dir.absolutePath()))
+        ui->viewerWidget->file = dir.absolutePath() + ui->inputFile->text();
+    else
+        ui->viewerWidget->file = ui->inputFile->text();
+    qDebug("%s\n", ui->viewerWidget->file.toStdString().c_str());
     ui->viewerWidget->repaint();
 }

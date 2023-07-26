@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 #include "opengl.h"
 
 QT_BEGIN_NAMESPACE
@@ -28,5 +29,7 @@ public slots:
     void verticlesColor();
     void edgesColor();
     void backgroundColor();
+    void inputFile();
+    void openFile();
 };
 #endif // MAINWINDOW_H
