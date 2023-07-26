@@ -108,6 +108,5 @@ void MainWindow::openFile()
         ui->viewerWidget->file = dir.absolutePath() + ui->inputFile->text();
     else
         ui->viewerWidget->file = ui->inputFile->text();
-    qDebug("%s\n", ui->viewerWidget->file.toStdString().c_str());
     ui->viewerWidget->repaint();
 }
