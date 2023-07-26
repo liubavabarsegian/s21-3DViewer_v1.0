@@ -1,5 +1,7 @@
 #include "parser.h"
 
+
+
 void print_vertices(data *model) {
   for (size_t i = 1; i <= model->count_of_vertices; ++i) {
     //printf("%ld\t", i + 1);
@@ -190,4 +192,11 @@ int scan_facets(FILE *fp, data *model, size_t *count_of_facet) {
       }
   }
   return ExitCode;
+}
+
+
+
+int main(void) {
+  
+  return 0;
 }

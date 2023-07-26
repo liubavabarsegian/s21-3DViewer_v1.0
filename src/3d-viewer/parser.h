@@ -5,6 +5,32 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+
+
+//#####################################################################################################
+// typedef struct facets {     // хранения полигонов(f)
+//     int *vert;              // массив номеров вершин
+//     int count_number_vert;  // кол-во вершин необходимых для соединения
+// } s21_facets;
+
+// typedef struct data {
+//     unsigned count_vert;    // кол-во вершин
+//     unsigned count_facets;  // кол-во полигон
+//     unsigned count_edge;    // кол-во рёбер
+//     s21_matrix *matrix_3d;
+//     s21_facets *polygons;
+// } s21_data;
+
+// typedef struct matrix {  // структура матриц
+//     double **matrix;
+//     int rows;
+//     int columns;
+// } s21_matrix;
+//#####################################################################################################
+
+
+
 typedef struct vertice {
     double x;
     double y;
@@ -12,16 +38,30 @@ typedef struct vertice {
 } vertice;
 
 typedef struct facets {
-	int *vertices;
-	size_t numbers_of_vertices_in_facets;
-} polygon_t;
+	int *vertices;    /// int *vert;  
+	size_t numbers_of_vertices_in_facets;  /// int count_number_vert;
+} polygon_t;   //// s21_facets;
+
+// typedef struct facets {     // хранения полигонов(f)
+//     int *vert;              // массив номеров вершин
+//     int count_number_vert;  // кол-во вершин необходимых для соединения
+// } s21_facets;
 
 typedef struct data {
-	size_t count_of_vertices;
-	size_t count_of_facets;
+	size_t count_of_vertices;   ///// unsigned count_vert;    // кол-во вершин
+	size_t count_of_facets;   /// unsigned count_facets;  // кол-во полигон
     vertice *vertices;
-	polygon_t *polygons;
-} data;
+	polygon_t *polygons;    /////  s21_facets *polygons;
+} data;  ///  s21_data;
+
+// typedef struct data {
+//     unsigned count_vert;    // кол-во вершин +
+//     unsigned count_facets;  // кол-во полигон  +
+//     unsigned count_edge;    // кол-во рёбер 
+//     s21_matrix *matrix_3d;
+//     s21_facets *polygons;
+// } s21_data;
+
 
 #define  OK 0
 #define ERROR 404
