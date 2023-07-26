@@ -74,7 +74,7 @@ rebuild: clean $(NAME)
 
 clean:
 	rm -rf test *.gcov *.css gcov*.html
-	rm -rf *.o *.a *.out s21_smart_calc/.qmake.stash s21_smart_calc/*.user
+	rm -rf *.o *.a *.out 3d-viewer/.qmake.stash 3d-viewer/*.user
 	rm -rf *.gcda *.gcno *.info *.gch
 	rm -rf test report
 	rm -rf documentation/
