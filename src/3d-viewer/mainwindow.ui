@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="toolTip">
+   <string notr="true"/>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(12, 11, 60);
 border-radius: 20px;</string>
@@ -711,12 +714,12 @@ color: rgb(0, 15, 88);</string>
      <rect>
       <x>1060</x>
       <y>80</y>
-      <width>61</width>
-      <height>51</height>
+      <width>71</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(&quot;/imgs/folder.png&quot;);</string>
+     <string notr="true">background-color: rgb(26, 95, 180)</string>
     </property>
     <property name="text">
      <string/>

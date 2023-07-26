@@ -98,10 +98,16 @@ void MainWindow::inputFile()
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open Image"), "../objs", tr("Image Files (*.obj)"));
     ui->inputFile->setText(fileName);
+    qDebug("%s\n", ui->inputFile->text().toStdString().c_str());
 }
 
 void MainWindow::openFile()
 {
-    ui->viewerWidget->file = ui->inputFile->text();
+    QDir dir("../imgs/");
+    if (ui->inputFile->text().contains(dir.absolutePath()))
+        ui->viewerWidget->file = dir.absolutePath() + ui->inputFile->text();
+    else
+        ui->viewerWidget->file = ui->inputFile->text();
+    qDebug("%s\n", ui->viewerWidget->file.toStdString().c_str());
     ui->viewerWidget->repaint();
 }
