@@ -719,14 +719,14 @@ color: rgb(0, 15, 88);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(26, 95, 180)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>imgs/folder.png</selectedon>
+      <selectedon>../3d-viewer/imgs/folder.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
