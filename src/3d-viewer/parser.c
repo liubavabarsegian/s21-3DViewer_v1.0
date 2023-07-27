@@ -1,37 +1,52 @@
-#include "parser.h"
+#include "main.h"
 
-void print_vertices(data *model) {
-  for (size_t i = 1; i <= model->count_of_vertices; ++i) {
-    //printf("%ld\t", i + 1);
-    printf("%ld\t%lf %lf %lf\n", i, model->vertices[i].x, model->vertices[i].y, model->vertices[i].z);
+// ========== example ================
+int main(void) {
+  s21_data model;
+  model.count_vert = 10;
+  model.count_facets = 10;
+  if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
+    model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
+    if (model.polygons != NULL) {
+
+      open_and_parse(&model);
+
+      free(model.polygons);
+    }
+    free_matrix(model.matrix_3d);
   }
+  
+  return 0;
 }
 
-void print_polygon(data *model) {
-  for (size_t i = 0; i < model->count_of_facets; ++i) {
+void print_polygon(s21_data *model) {
+  for (size_t i = 0; i < model->count_facets; ++i) {
     printf("%ld\t", i);
-    for (size_t j = 0; j < model->polygons[i].numbers_of_vertices_in_facets; ++j) {
-      printf("%d ", model->polygons[i].vertices[j]);
+    for (int j = 0; j < model->polygons[i].count_number_vert; ++j) {
+      printf("%d ", model->polygons[i].vert[j]);
     }
-    //printf("\t%ld", model->polygons[i].numbers_of_vertices_in_facets);
+    //printf("\t%ld", model->polygons[i].count_number_vert);
     printf("\n");
   }
 }
 
-void free_vertices_in_facets(data *model) {
-  for (size_t i = 0; i < model->count_of_facets; ++i) {
-    free(model->polygons[i].vertices);
+void free_vertices_in_facets(s21_data *model) {
+  for (size_t i = 0; i < model->count_facets; ++i) {
+    free(model->polygons[i].vert);
   }
 }
 
-void open_and_parse(data *model, const char *filename) {
+void open_and_parse(s21_data *model) {
+  char filename[13] = "test_cat.obj";
   size_t vertice_counter = 0;
   size_t facet_counter = 0;
   int ExitCode = parser(filename, model, &vertice_counter, &facet_counter);
   if (ExitCode == OK) {
-  model->count_of_vertices = vertice_counter;
-  model->count_of_facets = facet_counter;
-   print_vertices(model);
+  model->count_vert = vertice_counter;
+  model->matrix_3d->rows = vertice_counter;
+  model->count_facets = facet_counter;
+  //  print_vertices(model);
+   print_matrix(*(model->matrix_3d));
    printf("\n");
    print_polygon(model);
   } else {
@@ -40,20 +55,22 @@ void open_and_parse(data *model, const char *filename) {
   free_vertices_in_facets(model);
 }
 
-int scan_vertice(size_t *vertices_counter, char *line, data *model) {
+int scan_vertice(size_t *vertices_counter, char *line, s21_data *model) {
   int ExitCode = OK;
   double x, y, z;
 
   if (sscanf(line, "%lf%lf%lf", &x, &y, &z) == 3) {
     ++*vertices_counter;
-    if (*vertices_counter >= model->count_of_vertices) {
-      model->count_of_vertices *= 2;
-      model->vertices = (vertice *)realloc(model->vertices, model->count_of_vertices * sizeof(vertice));
+    if (*vertices_counter >= model->count_vert) {
+      model->count_vert *= 2;
+      // model->vertices = (vertice *)realloc(model->vertices, model->count_vert * sizeof(vertice));
+      realloc_matrix(model->matrix_3d, model->count_vert, 3);
     }
-    if (model->vertices != NULL) {
-      model->vertices[*vertices_counter].x = x;
-      model->vertices[*vertices_counter].y = y;
-      model->vertices[*vertices_counter].z = z;
+    if (model->matrix_3d->matrix != NULL) {
+      // model->vertices[*vertices_counter].x = x;
+      model->matrix_3d->matrix[*vertices_counter][0] = x;
+      model->matrix_3d->matrix[*vertices_counter][1] = y;
+      model->matrix_3d->matrix[*vertices_counter][2] = z;
     } else {
       ExitCode = ERROR;
     }
@@ -61,7 +78,7 @@ int scan_vertice(size_t *vertices_counter, char *line, data *model) {
   return ExitCode;
 }
 
-int parser(char *filename, data *model, size_t *count_of_vertices, size_t *count_of_facet) {
+int parser(char *filename, s21_data *model, size_t *count_vert, size_t *count_facets) {
   int ExitCode = OK;
 
   FILE *fp;
@@ -71,9 +88,9 @@ int parser(char *filename, data *model, size_t *count_of_vertices, size_t *count
     char letter = getc(fp);
     while (letter != EOF && ExitCode == OK) {
       if (letter == 'v') {
-        ExitCode = scan_vertices(fp, model, count_of_vertices);
+        ExitCode = scan_vertices(fp, model, count_vert);
       } else if (letter == 'f') {
-        ExitCode = scan_facets(fp, model, count_of_facet);
+        ExitCode = scan_facets(fp, model, count_facets);
       }
       letter = getc(fp);
     }
@@ -85,10 +102,10 @@ int parser(char *filename, data *model, size_t *count_of_vertices, size_t *count
   return ExitCode;
 }
 
-int scan_facet(size_t *facets_counter, FILE *fp, data *model) {
+int scan_facet(size_t *facets_counter, FILE *fp, s21_data *model) {
   int ExitCode = OK;
 
-  size_t count_vertice_in_facet = 0;
+  int count_vertice_in_facet = 0;
   int flag_end_of_line = 0;
   char letter = getc(fp);
   if (is_number(letter)){
@@ -103,7 +120,7 @@ int scan_facet(size_t *facets_counter, FILE *fp, data *model) {
       letter = getc(fp);
     }
   }
-  model->polygons[*facets_counter].numbers_of_vertices_in_facets = count_vertice_in_facet;
+  model->polygons[*facets_counter].count_number_vert = count_vertice_in_facet;
 } else {
   while (letter != EOF && letter != '\n') {
     ExitCode = IS_NOT_A_NUMBER;
@@ -113,7 +130,7 @@ int scan_facet(size_t *facets_counter, FILE *fp, data *model) {
   return ExitCode;
 }
 
-int found_number(char letter, size_t *count_vertice_in_facet, size_t *facets_counter, FILE *fp, data *model, int *flag_end_of_line) {
+int found_number(char letter, int *count_vertice_in_facet, size_t *facets_counter, FILE *fp, s21_data *model, int *flag_end_of_line) {
   int ExitCode = OK;
 
   size_t number = 0;
@@ -122,12 +139,12 @@ int found_number(char letter, size_t *count_vertice_in_facet, size_t *facets_cou
     number += letter - '0';
     letter = getc(fp);
   }
-  if (*count_vertice_in_facet >= model->polygons[*facets_counter].numbers_of_vertices_in_facets) {
-    model->polygons[*facets_counter].numbers_of_vertices_in_facets *= 2;
-    model->polygons[*facets_counter].vertices = (int *)realloc(model->polygons[*facets_counter].vertices, model->polygons[*facets_counter].numbers_of_vertices_in_facets * sizeof(int));
+  if (*count_vertice_in_facet >= model->polygons[*facets_counter].count_number_vert) {
+    model->polygons[*facets_counter].count_number_vert *= 2;
+    model->polygons[*facets_counter].vert = (int *)realloc(model->polygons[*facets_counter].vert, model->polygons[*facets_counter].count_number_vert * sizeof(int));
   }
-  if (model->polygons[*facets_counter].vertices != NULL) {
-    model->polygons[*facets_counter].vertices[*count_vertice_in_facet] = number;
+  if (model->polygons[*facets_counter].vert != NULL) {
+    model->polygons[*facets_counter].vert[*count_vertice_in_facet] = number;
     ++*count_vertice_in_facet;
   } else {
     ExitCode = ERROR;
@@ -142,7 +159,7 @@ int found_number(char letter, size_t *count_vertice_in_facet, size_t *facets_cou
   return ExitCode;
 }
 
-
+int is_number(char symbol);
 int is_number(char symbol) {
   int ExitCode = 0;
   if (symbol >= '0' && symbol <= '9') {
@@ -151,13 +168,13 @@ int is_number(char symbol) {
   return ExitCode;
 }
 
-int scan_vertices(FILE *fp, data *model, size_t *count_of_vertices) {
+int scan_vertices(FILE *fp, s21_data *model, size_t *count_vert) {
   int ExitCode = OK;
   char letter = getc(fp);
   if (letter == ' ') {
     char line[51];
     if (fgets(line, sizeof(line), fp) != NULL) {
-      ExitCode = scan_vertice(count_of_vertices, line, model);
+      ExitCode = scan_vertice(count_vert, line, model);
     } else {
       ExitCode = ERROR;  //  ?
     }
@@ -165,28 +182,117 @@ int scan_vertices(FILE *fp, data *model, size_t *count_of_vertices) {
   return ExitCode;
 }
 
-int scan_facets(FILE *fp, data *model, size_t *count_of_facet) {
+int scan_facets(FILE *fp, s21_data *model, size_t *count_facets) {
   int ExitCode = OK;
   char letter = getc(fp);
   if (letter == ' ') {
-      if (*count_of_facet >= model->count_of_facets) {
-        model->count_of_facets *= 2;
-        model->polygons = (polygon_t *)realloc(model->polygons,model->count_of_facets * sizeof(polygon_t));
+      if (*count_facets >= model->count_facets) {
+        model->count_facets *= 2;
+        model->polygons = (s21_facets *)realloc(model->polygons,model->count_facets * sizeof(s21_facets));
       }
       if (model->polygons != NULL) {
-        model->polygons[*count_of_facet].numbers_of_vertices_in_facets = 10;
-        model->polygons[*count_of_facet].vertices = (int *)malloc(model->polygons[*count_of_facet].numbers_of_vertices_in_facets * sizeof(int));
-        if (model->polygons[*count_of_facet].vertices != NULL) {
-          ExitCode = scan_facet(count_of_facet, fp, model);
+        model->polygons[*count_facets].count_number_vert = 10;
+        model->polygons[*count_facets].vert = (int *)malloc(model->polygons[*count_facets].count_number_vert * sizeof(int));
+        if (model->polygons[*count_facets].vert != NULL) {
+          ExitCode = scan_facet(count_facets, fp, model);
           if (ExitCode == IS_NOT_A_NUMBER) {
             ExitCode = OK;
           } else if (ExitCode == OK){
-            ++*count_of_facet;
+            ++*count_facets;
           }
         }
       } else {
         ExitCode = ERROR;
       }
   }
+  return ExitCode;
+}
+
+// ==================================== matrix ====================================
+//==================================== example ====================================
+// int main(void) {
+//     int columns = 3;
+//     int rows = 10;
+//     s21_matrix matrix_3d;
+    
+//     create_matrix(&matrix_3d, rows, columns);
+//     // print_matrix(matrix_3d);
+//     int k = 0;
+//     for(int i = 1; i <= rows; ++i) {
+//         for (int j = 0; j < columns; ++j) {
+//             matrix_3d.matrix[i][j] = k;
+//             ++k;
+//         }
+//     }
+//     print_matrix(matrix_3d);
+//     // printf("%d %d\n", matrix_3d.rows, matrix_3d.columns);
+//     printf("\n");
+//     realloc_matrix(&matrix_3d, 15, columns);
+    
+//     for(int i = 11; i <= matrix_3d.rows; ++i) {
+//         for (int j = 0; j < columns; ++j) {
+//             matrix_3d.matrix[i][j] = k;
+//             ++k;
+//         }
+//     }
+//     realloc_matrix(&matrix_3d, 20, columns);
+
+//     for(int i = 16; i <= matrix_3d.rows; ++i) {
+//         for (int j = 0; j < columns; ++j) {
+//             matrix_3d.matrix[i][j] = k;
+//             ++k;
+//         }
+//     }
+
+//     print_matrix(matrix_3d);
+//     // printf("%d %d\n", matrix_3d.rows, matrix_3d.columns);
+//     free_matrix(&matrix_3d);
+//     return 0;
+// }
+
+void print_matrix(s21_matrix matrix_3d) {
+    for(int i = 1; i <= matrix_3d.rows; ++i) {
+        for (int j = 0; j < matrix_3d.columns; ++j) {
+            printf("%lf ", matrix_3d.matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int create_matrix(s21_matrix *matrix_3d, int rows, int columns) {
+  int ExitCode = OK;
+    matrix_3d->rows = rows;
+    matrix_3d->columns = columns;
+    matrix_3d->matrix = (double **) malloc(sizeof(double *) * (matrix_3d->rows + 1));
+    if (matrix_3d->matrix != NULL) {
+        for (int i = 0; i <= rows; ++i) {
+            matrix_3d->matrix[i] = (double *) malloc(sizeof(double) * columns);
+        }
+    } else {
+      ExitCode = ERROR;
+    }
+    return ExitCode;
+}
+
+void free_matrix(s21_matrix *matrix_3d) {
+    for (int i = 0; i <= matrix_3d->rows; ++i) {
+        free(matrix_3d->matrix[i]);
+    }
+    free(matrix_3d->matrix);
+}
+
+
+int realloc_matrix(s21_matrix *matrix_3d, int rows, int columns) {
+  int ExitCode = OK;
+    matrix_3d->matrix = (double **) realloc(matrix_3d->matrix, sizeof(double *) * (rows + 1));
+    if (matrix_3d->matrix != NULL) {
+        for (int i = matrix_3d->rows + 1; i <= rows; ++i) {
+            matrix_3d->matrix[i] = (double *) malloc(sizeof(double) * columns);
+        }
+    } else {
+      ExitCode = ERROR;
+    }
+    matrix_3d->rows = rows;
+    matrix_3d->columns = columns;
   return ExitCode;
 }
