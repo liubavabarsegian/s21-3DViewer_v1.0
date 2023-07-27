@@ -1,4 +1,4 @@
-#include "main.h"
+#include "parser.h"
 
 // ========== example ================
 int main(void) {
@@ -9,7 +9,7 @@ int main(void) {
     model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
     if (model.polygons != NULL) {
 
-      open_and_parse(&model);
+      open_and_parse(&model, "../objs/cat.obj");
 
       free(model.polygons);
     }
@@ -36,8 +36,7 @@ void free_vertices_in_facets(s21_data *model) {
   }
 }
 
-void open_and_parse(s21_data *model) {
-  char filename[13] = "test_cat.obj";
+void open_and_parse(s21_data *model, const char *filename) {
   size_t vertice_counter = 0;
   size_t facet_counter = 0;
   int ExitCode = parser(filename, model, &vertice_counter, &facet_counter);
@@ -78,7 +77,7 @@ int scan_vertice(size_t *vertices_counter, char *line, s21_data *model) {
   return ExitCode;
 }
 
-int parser(char *filename, s21_data *model, size_t *count_vert, size_t *count_facets) {
+int parser(const char *filename, s21_data *model, size_t *count_vert, size_t *count_facets) {
   int ExitCode = OK;
 
   FILE *fp;
