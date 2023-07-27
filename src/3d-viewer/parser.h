@@ -72,7 +72,7 @@ int parser(const char *filename, s21_data *model, size_t *count_vert, size_t *co
 
 void free_vertices_in_facets(s21_data *model);
 
-void open_and_parse(s21_data *model, const char *);
+void open_and_parse(s21_data *model, const char *filename);
 
 int scan_vertices(FILE *fp, s21_data *model, size_t *count_vert);
 int scan_facets(FILE *fp, s21_data *model, size_t *count_of_facet);
