@@ -50,8 +50,9 @@ install:
 uninstall:
 	rm -rf $(INSTALL_DIR)
 
-dvi: 
-	open dvi.html
+dvi:
+	@doxygen conf && mv html documentation
+	@open documentation/index.html
 
 dist:
 	rm -rf $(DIST_DIR)/
@@ -73,9 +74,10 @@ rebuild: clean $(NAME)
 
 clean:
 	rm -rf test *.gcov *.css gcov*.html
-	rm -rf *.o *.a *.out s21_smart_calc/.qmake.stash s21_smart_calc/*.user
+	rm -rf *.o *.a *.out  $(SOURCE_DIR)/.qmake.stash  $(SOURCE_DIR)/*.user
 	rm -rf *.gcda *.gcno *.info *.gch
 	rm -rf test report
+	rm -rf documentation/
 
 clean_all: 
 	make clean
@@ -93,3 +95,4 @@ installqt:
 	sudo apt install qtcreator -y
 	sudo apt install qtbase5-dev qtwayland5-dev-tools qtwayland5 -y
 	sudo apt install qt5-qmake -y
+	sudo apt install doxygen

@@ -21,17 +21,17 @@ OpenGL::~OpenGL()
 
 void OpenGL::initializeGL()
 {
-    model.count_of_vertices = 15;
-    model.count_of_facets = 15;
-    qDebug("V %d", model.count_of_vertices);
-    model.vertices = (vertice *)malloc(model.count_of_vertices * sizeof(vertice));
-    if (model.vertices != NULL) {
-      model.polygons = (polygon_t *)malloc(model.count_of_facets * sizeof(polygon_t));
-      if (model.polygons != NULL) {
-        open_and_parse(&model);
-        qDebug("V %d", model.count_of_vertices);
-      }
-    }
+//    model.count_of_vertices = 15;
+//    model.count_of_facets = 15;
+//    qDebug("V %d", model.count_of_vertices);
+//    model.vertices = (vertice *)malloc(model.count_of_vertices * sizeof(vertice));
+//    if (model.vertices != NULL) {
+//      model.polygons = (polygon_t *)malloc(model.count_of_facets * sizeof(polygon_t));
+//      if (model.polygons != NULL) {
+//        open_and_parse(&model, file.toStdString().c_str());
+//        qDebug("V %d", model.count_of_vertices);
+//      }
+//    }
 
     //загрузка единичной матрицы
 //   glLoadIdentity();
