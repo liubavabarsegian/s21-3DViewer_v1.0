@@ -43,6 +43,8 @@ public:
     QString file;
     struct data model;
 private:
+    float xRot, yRot, zRot;
+    QPoint mousePosition;
     virtual void initializeGL() override;
     virtual void resizeGL(int w, int h) override;
     virtual void mousePressEvent(QMouseEvent *) override;
