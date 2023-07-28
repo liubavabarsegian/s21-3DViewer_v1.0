@@ -20,14 +20,12 @@ typedef struct facets {
  - @brief Структура для хранения данных.
  - @param count_vert - количество вершин
  - @param count_facets - количество полигонов
- - @param count_edge - количество рёбер
  - @param matrix_3d - структура матрицы
  - @param polygons - структура хранения полигонов
  */
 typedef struct data {
     unsigned count_vert;
     unsigned count_facets;
-    unsigned count_edge;
     s21_matrix *matrix_3d;
     s21_facets *polygons;
 } s21_data;
