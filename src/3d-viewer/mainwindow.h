@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include "opengl.h"
+#include "qgifimage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,7 +21,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 private:
-    Ui::MainWindow *ui;
+      Ui::MainWindow *ui;
+      QGifImage *gif;
+      QImage *frame;
+      QTimer *timer;
+      int count;
 public slots:
     /**
     - @brief Функция округления вершин
@@ -70,5 +75,8 @@ public slots:
     - @brief Функция открытия файла
     */
     void openFile();
+    void record();
+    void save();
+    void saveImage();
 };
 #endif // MAINWINDOW_H

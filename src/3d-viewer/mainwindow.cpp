@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->backgroundColor, &QPushButton::clicked, this, &MainWindow::backgroundColor);
     connect(ui->inputFileButton, &QPushButton::clicked, this, &MainWindow::inputFile);
     connect(ui->openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
+    connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
+    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
 }
 
 MainWindow::~MainWindow()
@@ -109,4 +111,33 @@ void MainWindow::openFile()
     else
         ui->viewerWidget->file = ui->inputFile->text();
     ui->viewerWidget->repaint();
+}
+
+void MainWindow::saveImage() {
+  QString save = NULL;
+  save = QFileDialog::getSaveFileName(this, NULL, NULL,
+                                      "JPEG (*.jpeg) ;; BMP (*.bmp)");
+  if (!save.isNull()) ui->viewerWidget->grabFramebuffer().save(save, NULL, 100);
+}
+
+void MainWindow::record() {
+  gif = new QGifImage;
+  frame = new QImage;
+  timer = new QTimer(this);
+  count = 0;
+  connect(timer, SIGNAL(timeout()), this, SLOT(save()));
+  timer->start(50);
+}
+
+
+void MainWindow::save() {
+  count++;
+  *frame = ui->viewerWidget->grabFramebuffer();
+  gif->addFrame(*frame);
+  if (count == 50) {
+    timer->stop();
+    QString save = NULL;
+    save = QFileDialog::getSaveFileName(this, NULL, NULL, "GIF (*.gif)");
+    if (!save.isNull()) gif->save(save);
+  }
 }

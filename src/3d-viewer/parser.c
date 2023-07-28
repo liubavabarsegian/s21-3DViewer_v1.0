@@ -3,23 +3,19 @@
 
 
 // ========== example ================
-//int parser(void) {
+//int main(void) {
 //  s21_data model;
 //  model.count_vert = 10;
 //  model.count_facets = 10;
-//  model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
-//  if (model.matrix_3d != NULL) {
-//    if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
-//      model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
-//      int count_allocated_blocks = 0;
-//      if (model.polygons != NULL) {
-//        open_and_parse(&model, "cat.obj", &count_allocated_blocks);
+//  if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
+//    model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
+//    if (model.polygons != NULL) {
 
-//        free(model.polygons);
-//      }
-//      free_matrix(model.matrix_3d, count_allocated_blocks);
-//      free(model.matrix_3d);
+//      open_and_parse(&model, "../objs/cat.obj");
+
+//      free(model.polygons);
 //    }
+//    free_matrix(model.matrix_3d);
 //  }
   
 //  return 0;

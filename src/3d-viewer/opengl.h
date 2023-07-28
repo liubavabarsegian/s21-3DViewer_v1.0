@@ -23,7 +23,7 @@ extern "C" {
  - @param model - "структура модели"
  */
 
-class OpenGL : public QGLWidget
+class OpenGL : public QOpenGLWidget
 {
     Q_OBJECT;
 public:
@@ -42,6 +42,10 @@ public:
     QColor backgroundColor;
     QString file;
     struct data model;
+    /**
+    - @brief Функция записи экрана
+    */
+    void record();
 private:
     float xRot, yRot, zRot;
     QPoint mousePosition;
