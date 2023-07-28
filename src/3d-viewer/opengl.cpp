@@ -11,12 +11,12 @@ OpenGL::OpenGL(QWidget *parent)
 
 OpenGL::~OpenGL()
 {
-    if (model.vertices != NULL){
-      if (model.polygons != NULL){
-        free(model.polygons);
-      }
-      free(model.vertices);
-    }
+//    if (model.vertices != NULL){
+//      if (model.polygons != NULL){
+//        free(model.polygons);
+//      }
+//      free(model.vertices);
+//    }
 }
 
 void OpenGL::initializeGL()
