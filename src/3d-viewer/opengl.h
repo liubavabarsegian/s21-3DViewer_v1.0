@@ -23,7 +23,7 @@ extern "C" {
  - @param model - "структура модели"
  */
 
-class OpenGL : public QGLWidget
+class OpenGL : public QOpenGLWidget
 {
     Q_OBJECT;
 public:

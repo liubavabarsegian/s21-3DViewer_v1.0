@@ -1,7 +1,7 @@
 #include "opengl.h"
 
 OpenGL::OpenGL(QWidget *parent)
-    :QGLWidget(parent) {
+    :QOpenGLWidget(parent) {
     pointSize = 10;
     edgeSize = 5;
     noVerticles = false;
@@ -75,7 +75,7 @@ void OpenGL::resizeGL(int w, int h)
 //void OpenGL::drawModel(float a)
 //{
 //    //glVertexPointer(количество координат, тип, смещение, адрес)
-//    MyGLWidget(QWidget *parent = nullptr) : QGLWidget(parent), isRecording(false) {
+//    MyGLWidget(QWidget *parent = nullptr) : QOpenGLWidget(parent), isRecording(false) {
 // Создаем таймер, который будет вызывать slotCaptureFrame() каждые 33 мс (приближенно к 30 кадрам в секунду)
 //    //разрешение использования вершинного буфера
 //    glEnableClientState(GL_VERTEX_ARRAY);
@@ -148,7 +148,7 @@ void OpenGL::mouseMoveEvent(QMouseEvent *mo)
 {
     xRot = 1 / M_PI * (mo->pos().y() - mousePosition.y());
     yRot = 1 / M_PI * (mo->pos().x() - mousePosition.x());
-    updateGL();
+    update();
 }
 
 void OpenGL::record()
