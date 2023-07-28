@@ -41,7 +41,7 @@ public:
     QColor edgesColor;
     QColor backgroundColor;
     QString file;
-    struct data model;
+    s21_data model;
     /**
     - @brief Функция записи экрана
     */

@@ -14,12 +14,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     opengl.cpp \
-    parser.c
+    parser.c \
+    s21_affine_transform.c
 
 HEADERS += \
     mainwindow.h \
     opengl.h \
-    parser.h
+    parser.h \
+    s21_affine_transform.h
 
 FORMS += \
     mainwindow.ui

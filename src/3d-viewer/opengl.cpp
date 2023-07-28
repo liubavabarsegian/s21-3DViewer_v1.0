@@ -11,27 +11,26 @@ OpenGL::OpenGL(QWidget *parent)
 
 OpenGL::~OpenGL()
 {
-//    if (model.vertices != NULL){
-//      if (model.polygons != NULL){
-//        free(model.polygons);
-//      }
-//      free(model.vertices);
-//    }
+    if (model.polygons != NULL)
+    {
+//        if (model.polygons->vert != NULL)
+//            free(model.polygons->vert);
+        free(model.polygons);
+    }
 }
 
 void OpenGL::initializeGL()
 {
-//    model.count_of_vertices = 15;
-//    model.count_of_facets = 15;
-//    qDebug("V %d", model.count_of_vertices);
-//    model.vertices = (vertice *)malloc(model.count_of_vertices * sizeof(vertice));
-//    if (model.vertices != NULL) {
-//      model.polygons = (polygon_t *)malloc(model.count_of_facets * sizeof(polygon_t));
-//      if (model.polygons != NULL) {
-//        open_and_parse(&model, file.toStdString().c_str());
-//        qDebug("V %d", model.count_of_vertices);
-//      }
-//    }
+
+    model.count_vert = 10;
+      model.count_facets = 10;
+    if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
+        model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
+        if (model.polygons != NULL) {
+          int blocks_to_free_in_matrix = 0;
+          open_and_parse(&model, file.toStdString().c_str(), &blocks_to_free_in_matrix);
+        }
+      }
 
     //загрузка единичной матрицы
 //   glLoadIdentity();
@@ -151,14 +150,4 @@ void OpenGL::mouseMoveEvent(QMouseEvent *mo)
     update();
 }
 
-void OpenGL::record()
-{
-//    glFinish(); // Make sure everything is drawn
-//    glReadBuffer(GL_FRONT);
-//    glPixelStorei(GL_PACK_ALIGNMENT, 4);
-//    glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-//    glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-//    glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-//    glReadPixels(0, 0, this->width(), this->height(), GL_IMPLEMENTATION_COLOR_READ_FORMAT, GL_UNSIGNED_BYTE, GL_RGB);
-}
 

@@ -75,8 +75,17 @@ public slots:
     - @brief Функция открытия файла
     */
     void openFile();
+    /**
+    - @brief Функция начала записи гифки
+    */
     void record();
+    /**
+    - @brief Функция сохранения гифки
+    */
     void save();
+    /**
+    - @brief Функция сохранения скриншота
+    */
     void saveImage();
 };
 #endif // MAINWINDOW_H
