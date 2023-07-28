@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->backgroundColor, &QPushButton::clicked, this, &MainWindow::backgroundColor);
     connect(ui->inputFileButton, &QPushButton::clicked, this, &MainWindow::inputFile);
     connect(ui->openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
+    connect(ui->recordButton, &QPushButton::clicked, ui->viewerWidget, &OpenGL::record);
 }
 
 MainWindow::~MainWindow()

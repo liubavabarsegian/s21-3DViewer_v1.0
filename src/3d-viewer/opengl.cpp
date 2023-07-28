@@ -11,12 +11,12 @@ OpenGL::OpenGL(QWidget *parent)
 
 OpenGL::~OpenGL()
 {
-    if (model.vertices != NULL){
-      if (model.polygons != NULL){
-        free(model.polygons);
-      }
-      free(model.vertices);
-    }
+//    if (model.vertices != NULL){
+//      if (model.polygons != NULL){
+//        free(model.polygons);
+//      }
+//      free(model.vertices);
+//    }
 }
 
 void OpenGL::initializeGL()
@@ -75,7 +75,8 @@ void OpenGL::resizeGL(int w, int h)
 //void OpenGL::drawModel(float a)
 //{
 //    //glVertexPointer(количество координат, тип, смещение, адрес)
-//    glVertexPointer(3, GL_FLOAT, 0, &arr_cube);
+//    MyGLWidget(QWidget *parent = nullptr) : QGLWidget(parent), isRecording(false) {
+// Создаем таймер, который будет вызывать slotCaptureFrame() каждые 33 мс (приближенно к 30 кадрам в секунду)
 //    //разрешение использования вершинного буфера
 //    glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -149,3 +150,15 @@ void OpenGL::mouseMoveEvent(QMouseEvent *mo)
     yRot = 1 / M_PI * (mo->pos().x() - mousePosition.x());
     updateGL();
 }
+
+void OpenGL::record()
+{
+//    glFinish(); // Make sure everything is drawn
+//    glReadBuffer(GL_FRONT);
+//    glPixelStorei(GL_PACK_ALIGNMENT, 4);
+//    glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+//    glPixelStorei(GL_PACK_SKIP_ROWS, 0);
+//    glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+//    glReadPixels(0, 0, this->width(), this->height(), GL_IMPLEMENTATION_COLOR_READ_FORMAT, GL_UNSIGNED_BYTE, GL_RGB);
+}
+

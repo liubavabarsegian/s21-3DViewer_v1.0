@@ -736,6 +736,22 @@ color: rgb(0, 15, 88);</string>
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="recordButton">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>670</y>
+      <width>101</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+    <property name="text">
+     <string>Record</string>
+    </property>
+   </widget>
    <zorder>inputFileButton</zorder>
    <zorder>label</zorder>
    <zorder>viewerWidget</zorder>
@@ -763,6 +779,7 @@ color: rgb(0, 15, 88);</string>
    <zorder>label_19</zorder>
    <zorder>label_20</zorder>
    <zorder>label_21</zorder>
+   <zorder>recordButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

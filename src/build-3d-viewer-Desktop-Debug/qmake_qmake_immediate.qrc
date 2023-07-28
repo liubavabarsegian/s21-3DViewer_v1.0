@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+<file alias="imgs/folder.png">/home/liubava/Desktop/3DViewer_v1.0/src/3d-viewer/imgs/folder.png</file>
+</qresource>
+</RCC>

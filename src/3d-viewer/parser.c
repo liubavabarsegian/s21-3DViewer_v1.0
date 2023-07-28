@@ -1,23 +1,23 @@
 #include "parser.h"
 
 // ========== example ================
-int main(void) {
-  s21_data model;
-  model.count_vert = 10;
-  model.count_facets = 10;
-  if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
-    model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
-    if (model.polygons != NULL) {
+//int main(void) {
+//  s21_data model;
+//  model.count_vert = 10;
+//  model.count_facets = 10;
+//  if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
+//    model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
+//    if (model.polygons != NULL) {
 
-      open_and_parse(&model, "../objs/cat.obj");
+//      open_and_parse(&model, "../objs/cat.obj");
 
-      free(model.polygons);
-    }
-    free_matrix(model.matrix_3d);
-  }
+//      free(model.polygons);
+//    }
+//    free_matrix(model.matrix_3d);
+//  }
   
-  return 0;
-}
+//  return 0;
+//}
 
 void print_polygon(s21_data *model) {
   for (size_t i = 0; i < model->count_facets; ++i) {
