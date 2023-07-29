@@ -22,19 +22,22 @@ OpenGL::~OpenGL()
 void OpenGL::initializeGL()
 {
 
-//    model.count_vert = 10;
-//      model.count_facets = 10;
-//    if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
-//        model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
-//        if (model.polygons != NULL) {
-//          int blocks_to_free_in_matrix = 0;
-//          open_and_parse(&model, file.toStdString().c_str(), &blocks_to_free_in_matrix);
-//        }
-//      }
-
-    //загрузка единичной матрицы
-//   glLoadIdentity();
-   //преобразование матрицы так, чтобы
+//    s21_data model;
+    model.count_vert = 10;
+    model.count_facets = 10;
+    model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
+    if (model.matrix_3d != NULL) {
+      if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
+        model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
+        int count_allocated_blocks = 0;
+        if (model.polygons != NULL) {
+         if(open_and_parse(&model, "../objs/test_cat.obj", &count_allocated_blocks) == OK){
+             qDebug("AAAA %u\n", model.matrix_3d->rows);
+         }
+        }
+      }
+    }
+    //преобразование матрицы так, чтобы
    //создавалась ортогональная проекци
    glOrtho(0, 800, 0, 600, 1, 100);
 }
@@ -48,7 +51,7 @@ void OpenGL::paintGL()
     glLoadIdentity();
     glRotatef(xRot, 1, 0, 0);
     glRotatef(yRot, 0, 1, 0);
-    glScalef(0.001, 0.001, 0.001);
+    glScalef(0.005, 0.005, 0.005);
     glPointSize(pointSize);
     if (noVerticles)
         glPointSize(1);
@@ -71,7 +74,7 @@ void OpenGL::resizeGL(int w, int h)
     glViewport(0, 0, w, h);
 }
 
-//void OpenGL::drawModel(float a)
+//void OpenGL::drawModel(double a)
 //{
 //    //glVertexPointer(количество координат, тип, смещение, адрес)
 //    MyGLWidget(QWidget *parent = nullptr) : QOpenGLWidget(parent), isRecording(false) {
@@ -79,7 +82,7 @@ void OpenGL::resizeGL(int w, int h)
 //    //разрешение использования вершинного буфера
 //    glEnableClientState(GL_VERTEX_ARRAY);
 
-//    glColorPointer(3, GL_FLOAT, 0, &color_arr);
+//    glColorPointer(3, GL_double, 0, &color_arr);
 //    glEnableClientState(GL_COLOR_ARRAY);
 
 //        // (указываем, что будем рисовать, первый элемент, сколько всего вершин)
@@ -90,8 +93,8 @@ void OpenGL::resizeGL(int w, int h)
 
 void OpenGL::drawVerticles()
 {
-    float a = 100;
-    float verticles[] = {
+    double a = 100;
+    double verticles[] = {
             -a, -a, a,   a, -a, a,     a, a, a,     -a, a, a,
             a, -a, -a,   -a, -a, -a,   -a, a, -a,   a, a, -a,
             -a, -a, -a,   -a, -a, a,   -a, a, a,    -a, a, -a,
@@ -101,12 +104,17 @@ void OpenGL::drawVerticles()
         };
     //рисует вершины
     glBegin(GL_POINTS);
-        for (size_t i = 0; i <  24; i++)
+        qDebug("rows: %d\n", model.count_vert);
+        for (size_t i = 0;  i < model.count_vert; i++)
         {
-            float x = verticles[i];
-            float y = verticles[i + 1];
-            float z = verticles[i + 2];
-            i+= 2;
+//            double x = model.matrix_3d->matrix[i][0];
+//            double y = model.matrix_3d->matrix[i][1];
+//            double z = model.matrix_3d->matrix[i][2];
+
+            double x = verticles[i];
+            double y = verticles[i+1];
+            double z = verticles[i+2];
+            i+= 3;
             glVertex3d(x, y, z);
             qDebug("x: %f y: %f z: %f", x, y, z);
         }
@@ -115,8 +123,8 @@ void OpenGL::drawVerticles()
 
 void OpenGL::drawLines()
 {
-    float a = 100;
-    float verticles[] = {
+    double a = 100;
+    double verticles[] = {
             -a, -a, a,   a, -a, a,     a, a, a,     -a, a, a,
             a, -a, -a,   -a, -a, -a,   -a, a, -a,   a, a, -a,
             -a, -a, -a,   -a, -a, a,   -a, a, a,    -a, a, -a,
@@ -126,14 +134,18 @@ void OpenGL::drawLines()
         };
     //соединяет линии по точкам подряд
     glBegin(GL_LINE_LOOP);
-        for (size_t i = 0; i <  24; i++)
+        for (size_t i = 0; i < model.count_facets; i++)
         {
-            float x = verticles[i];
-            float y = verticles[i + 1];
-            float z = verticles[i + 2];
-            i+= 2;
-            glVertex3f(x, y, z);
-            qDebug("x: %f y: %f z: %f", x, y, z);
+            qDebug("facets: %d\n", model.count_facets);
+            for (size_t j = 0; j < model.polygons->count_number_vert; j++)
+            {
+//                qDebug("count: %d\n", model.matrix_3d->matrix[1][1]);
+//                double x = model.matrix_3d->matrix[model.polygons->vert[j]][0];
+//                double y = model.matrix_3d->matrix[model.polygons->vert[j]][1];
+//                double z = model.matrix_3d->matrix[model.polygons->vert[j]][2];
+//                glVertex3f(x, y, z);
+    //            qDebug("x: %f y: %f z: %f", x, y, z);
+            }
         }
     glEnd();
 }

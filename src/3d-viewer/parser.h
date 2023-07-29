@@ -9,7 +9,7 @@
 
 // было
 // typedef struct facets {
-	//int *vertices;  /////////   int *vert;              // массив номеров вершин
+    //int *vertices;  /////////   int *vert;              // массив номеров вершин
 //	size_t numbers_of_vertices_in_facets;   ////// int count_number_vert;  // кол-во вершин необходимых для соединения
 //} polygon_t;  /// s21_facets;
 // стало
@@ -19,21 +19,21 @@ typedef struct facets {     // хранения полигонов(f)
 } s21_facets;
 // было
 //typedef struct data {
-	//size_t count_of_vertices;  ///// unsigned count_vert;    // кол-во вершин
-	//size_t count_of_facets;  ///// unsigned count_facets;  // кол-во полигон
+    //size_t count_of_vertices;  ///// unsigned count_vert;    // кол-во вершин
+    //size_t count_of_facets;  ///// unsigned count_facets;  // кол-во полигон
     //vertice *vertices;
-	//polygon_t *polygons;   ///// s21_facets *polygons;
+    //polygon_t *polygons;   ///// s21_facets *polygons;
 //} data; ///// s21_data;
 // до этого матрица не использовалась
 typedef struct matrix {  // структура матриц
     double **matrix;
-    int rows;
-    int columns;
+    unsigned int rows;
+    unsigned int columns;
 } s21_matrix;
 // стало
 typedef struct data {
-    unsigned count_vert;    // кол-во вершин
-    unsigned count_facets;  // кол-во полигон
+    unsigned int count_vert;    // кол-во вершин
+    unsigned int count_facets;  // кол-во полигон
     /// unsigned count_edge;    // кол-во рёбер  потом сделаем, если нужно будет
     s21_matrix *matrix_3d;
     s21_facets *polygons;
@@ -49,7 +49,7 @@ int parser(const char *filename, s21_data *model, size_t *count_vert, size_t *co
 
 void free_vertices_in_facets(s21_data *model);
 
-void open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in_matrix);
+int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in_matrix);
 int scan_vertices(FILE *fp, s21_data *model, size_t *count_vert);
 int scan_facets(FILE *fp, s21_data *model, size_t *count_of_facet);
 
@@ -68,6 +68,7 @@ void print_polygon(s21_data *model);
 
 // =================== matrix ===================
 void print_matrix(s21_matrix matrix);
+int s21_eq_matrix(s21_matrix *A, s21_matrix *B);
 int create_matrix(s21_matrix *matrix_3d, int rows, int columns);
 void free_matrix(s21_matrix *matrix_3d, int rows_to_free);
 int realloc_matrix(s21_matrix *matrix_3d, int rows, int columns);
