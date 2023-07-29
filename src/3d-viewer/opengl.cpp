@@ -22,15 +22,15 @@ OpenGL::~OpenGL()
 void OpenGL::initializeGL()
 {
 
-    model.count_vert = 10;
-      model.count_facets = 10;
-    if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
-        model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
-        if (model.polygons != NULL) {
-          int blocks_to_free_in_matrix = 0;
-          open_and_parse(&model, file.toStdString().c_str(), &blocks_to_free_in_matrix);
-        }
-      }
+//    model.count_vert = 10;
+//      model.count_facets = 10;
+//    if (create_matrix(model.matrix_3d, model.count_vert, 3) == OK) {
+//        model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
+//        if (model.polygons != NULL) {
+//          int blocks_to_free_in_matrix = 0;
+//          open_and_parse(&model, file.toStdString().c_str(), &blocks_to_free_in_matrix);
+//        }
+//      }
 
     //загрузка единичной матрицы
 //   glLoadIdentity();

@@ -21,10 +21,46 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
+
+    // Загрузка параметров при открытии окна
+    QSettings settings("S21", "3DV");
+    int verticlesSize = settings.value("verticlesSize", 5).toInt();
+    int edgesSize = settings.value("edgesSize", 1).toInt();
+    bool dashedEdges = settings.value("dashedEdges", false).toBool();
+    bool showVerticles = settings.value("showVerticles", true).toBool();
+    QColor verticlesColor = settings.value("verticlesColor", QColor(Qt::red)).value<QColor>();
+    QColor edgesColor = settings.value("edgesColor", QColor(Qt::blue)).value<QColor>();
+    QColor backgroundColor = settings.value("backgroundColor", QColor(Qt::white)).value<QColor>();
+
+    // Применение загруженных параметров
+    ui->verticlesSlider->setValue(verticlesSize);
+    ui->edgesSize->setValue(edgesSize);
+    if (dashedEdges)
+      ui->edgesDashed->setChecked(true);
+    else
+      ui->edgesSolid->setChecked(true);
+    if (showVerticles)
+      ui->circleVerticles->setChecked(true);
+    else
+      ui->noVerticles->setChecked(true);
+    ui->viewerWidget->verticlesColor = verticlesColor;
+    ui->viewerWidget->edgesColor = edgesColor;
+    ui->viewerWidget->backgroundColor = backgroundColor;
+    ui->viewerWidget->repaint();
 }
 
 MainWindow::~MainWindow()
 {
+    // Сохранение параметров при закрытии окна
+    QSettings settings("S21", "3DV");
+    settings.setValue("verticlesSize", ui->verticlesSlider->value());
+    settings.setValue("edgesSize", ui->edgesSize->value());
+    settings.setValue("dashedEdges", ui->edgesDashed->isChecked());
+    settings.setValue("showVerticles", ui->circleVerticles->isChecked());
+    settings.setValue("verticlesColor", ui->viewerWidget->verticlesColor);
+    settings.setValue("edgesColor", ui->viewerWidget->edgesColor);
+    settings.setValue("backgroundColor", ui->viewerWidget->backgroundColor);
+
     delete ui;
 }
 
