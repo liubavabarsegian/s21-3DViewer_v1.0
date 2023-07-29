@@ -7,6 +7,18 @@
 #define RETURN_CALC_ERROR 2
 
 /**
+ - @brief Структура для хранения матриц.
+ - @param matrix - представление матрицы
+ - @param rows - количество строк
+ - @param columns - количество столбцов
+ */
+typedef struct matrix {
+    double **matrix;
+    int rows;
+    int columns;
+} s21_matrix;
+
+/**
  - @brief Структура для хранения полигонов (f).
  - @param vert - массив номеров вершин
  - @param count_number_vert - количество вершин, необходимых для соединения
@@ -29,18 +41,6 @@ typedef struct data {
     s21_matrix *matrix_3d;
     s21_facets *polygons;
 } s21_data;
-
-/**
- - @brief Структура для хранения матриц.
- - @param matrix - представление матрицы
- - @param rows - количество строк
- - @param columns - количество столбцов
- */
-typedef struct matrix {
-    double **matrix;
-    int rows;
-    int columns;
-} s21_matrix;
 
 /**
  - @brief Функция создания матрицы.
