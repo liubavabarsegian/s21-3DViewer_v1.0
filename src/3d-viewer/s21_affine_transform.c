@@ -125,8 +125,8 @@ void moving(s21_data *data, double x, double y, double z) {
 void resize_model(s21_data *data, double x, double y, double z) {
     s21_matrix result = create_resize_matrix(x, y, z);
     for (int i = 0; i < data->count_vert; ++i) {
-        double ** temp = data->matrix_3d->matrix[i];
-        data->matrix_3d[i] = s21_mult_matrix(&result, &(data->matrix_3d->matrix[i]));
+        s21_matrix temp = data->matrix_3d[i];
+        data->matrix_3d[i] = s21_mult_matrix(&result, &(data->matrix_3d[i]));
         s21_remove_matrix(&temp);
     }
     s21_remove_matrix(&result);

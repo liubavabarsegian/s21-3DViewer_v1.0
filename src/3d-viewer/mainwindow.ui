@@ -73,6 +73,9 @@ color: rgb(22, 7, 83);
 border-radius: 10px;
 </string>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="openFileButton">
     <property name="geometry">
@@ -178,7 +181,7 @@ border-radius: 10px;
 color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="verticles">
      <property name="styleSheet">
@@ -213,10 +216,10 @@ color: white;</string>
        </rect>
       </property>
       <property name="minimum">
-       <number>1</number>
+       <number>40</number>
       </property>
       <property name="maximum">
-       <number>100</number>
+       <number>150</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -384,7 +387,7 @@ color: rgb(0, 15, 88);</string>
        <number>1</number>
       </property>
       <property name="maximum">
-       <number>15</number>
+       <number>50</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -772,7 +775,7 @@ color: rgb(0, 15, 88);</string>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>imgs/folder.png</selectedon>
+      <selectedon>../3d-viewer/imgs/folder.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
@@ -799,7 +802,7 @@ color: rgb(0, 15, 88);</string>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>imgs/camera.png</selectedon>
+      <selectedon>../3d-viewer/imgs/camera.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
@@ -823,7 +826,7 @@ color: rgb(0, 15, 88);</string>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>imgs/save.png</selectedon>
+      <selectedon>../3d-viewer/imgs/save.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
@@ -859,7 +862,7 @@ color: rgb(0, 15, 88);</string>
      <rect>
       <x>240</x>
       <y>800</y>
-      <width>67</width>
+      <width>111</width>
       <height>21</height>
      </rect>
     </property>

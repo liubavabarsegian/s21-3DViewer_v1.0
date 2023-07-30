@@ -28,10 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Загрузка параметров при открытии окна
     QSettings settings("S21", "3DV");
-    int verticlesSize = settings.value("verticlesSize", 5).toInt();
+    int verticlesSize = settings.value("verticlesSize", 1).toInt();
     int edgesSize = settings.value("edgesSize", 1).toInt();
     bool dashedEdges = settings.value("dashedEdges", false).toBool();
-    bool showVerticles = settings.value("showVerticles", true).toBool();
     QColor verticlesColor = settings.value("verticlesColor", QColor(Qt::red)).value<QColor>();
     QColor edgesColor = settings.value("edgesColor", QColor(Qt::blue)).value<QColor>();
     QColor backgroundColor = settings.value("backgroundColor", QColor(Qt::white)).value<QColor>();
@@ -42,15 +41,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Применение загруженных параметров
     ui->verticlesSlider->setValue(verticlesSize);
+    ui->viewerWidget->pointSize = verticlesSize;
     ui->edgesSize->setValue(edgesSize);
+    ui->viewerWidget->edgeSize = edgesSize;
     if (dashedEdges)
+    {
+      ui->viewerWidget->dashed = true;
       ui->edgesDashed->setChecked(true);
+    }
     else
-      ui->edgesSolid->setChecked(true);
-    if (showVerticles)
-      ui->circleVerticles->setChecked(true);
-    else
-      ui->noVerticles->setChecked(true);
+    {
+        ui->viewerWidget->dashed = false;
+        ui->edgesSolid->setChecked(true);
+    }
+    ui->viewerWidget->noVerticles = noVerticles;
     ui->viewerWidget->verticlesColor = verticlesColor;
     ui->viewerWidget->edgesColor = edgesColor;
     ui->viewerWidget->backgroundColor = backgroundColor;
@@ -59,16 +63,41 @@ MainWindow::MainWindow(QWidget *parent)
     ui->viewerWidget->circleVerticles = circleVerticles;
     ui->viewerWidget->squareVerticles = squreVerticles;
     ui->viewerWidget->repaint();
+
+        ui->viewerWidget->model.count_vert = 10;
+        ui->viewerWidget->model.count_facets = 10;
+        ui->viewerWidget->model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
+        if (ui->viewerWidget->model.matrix_3d != NULL) {
+          if (create_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->model.count_vert, 3) == OK) {
+            ui->viewerWidget->model.polygons = (s21_facets *)malloc(ui->viewerWidget->model.count_facets * sizeof(s21_facets));
+            int count_allocated_blocks = 0;
+            if (ui->viewerWidget->model.polygons != NULL) {
+             if(open_and_parse(&(ui->viewerWidget->model), ui->viewerWidget->file.toStdString().c_str(), &count_allocated_blocks) == OK){
+                 qDebug("AAAA %u\n", ui->viewerWidget->model.count_vert);
+                 QFileInfo fi(ui->viewerWidget->file);
+                 ui->filenameLabel->setText(fi.fileName());
+                 ui->edgesLabel->setText(QString::number(ui->viewerWidget->model.count_facets));
+                 ui->verticlesLabel->setText(QString::number(ui->viewerWidget->model.count_vert));
+             }
+            }
+          }
+        }
 }
 
 MainWindow::~MainWindow()
 {
+    if (ui->viewerWidget->model.polygons != NULL) {
+         free(ui->viewerWidget->model.polygons);
+         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
+         free(ui->viewerWidget->model.matrix_3d);
+       }
+
+
     // Сохранение параметров при закрытии окна
     QSettings settings("S21", "3DV");
-    settings.setValue("verticlesSize", ui->verticlesSlider->value());
-    settings.setValue("edgesSize", ui->edgesSize->value());
+    settings.setValue("verticlesSize", ui->verticlesSlider->value() / 10);
+    settings.setValue("edgesSize", ui->edgesSize->value() / 10);
     settings.setValue("dashedEdges", ui->edgesDashed->isChecked());
-    settings.setValue("showVerticles", ui->circleVerticles->isChecked());
     settings.setValue("verticlesColor", ui->viewerWidget->verticlesColor);
     settings.setValue("edgesColor", ui->viewerWidget->edgesColor);
     settings.setValue("backgroundColor", ui->viewerWidget->backgroundColor);
@@ -82,21 +111,21 @@ MainWindow::~MainWindow()
 void MainWindow::circleVerticles()
 {
     ui->viewerWidget->squareVerticles = false;
+    ui->viewerWidget->noVerticles = false;
     ui->viewerWidget->circleVerticles = true;
     //сглаживание вершин
     glEnable(GL_POINT_SMOOTH);
     glPointSize(ui->viewerWidget->pointSize);
-    ui->viewerWidget->noVerticles = false;
     ui->viewerWidget->repaint();
 }
 
 void MainWindow::squareVerticles()
 {
+    ui->viewerWidget->noVerticles = false;
     ui->viewerWidget->circleVerticles = false;
     ui->viewerWidget->squareVerticles = true;
     glDisable(GL_POINT_SMOOTH);
     glPointSize(ui->viewerWidget->pointSize);
-    ui->viewerWidget->noVerticles = false;
     ui->viewerWidget->repaint();
 }
 
@@ -116,7 +145,7 @@ void MainWindow::resizeVerticles()
 
 void MainWindow::resizeEdges()
 {
-    ui->viewerWidget->edgeSize = ui->edgesSize->value();
+    ui->viewerWidget->edgeSize = ui->edgesSize->value() / 10;
     ui->viewerWidget->repaint();
 }
 
@@ -162,11 +191,7 @@ void MainWindow::inputFile()
 
 void MainWindow::openFile()
 {
-    QDir dir("../imgs/");
-    if (ui->inputFile->text().contains(dir.absolutePath()))
-        ui->viewerWidget->file = dir.absolutePath() + ui->inputFile->text();
-    else
-        ui->viewerWidget->file = ui->inputFile->text();
+    ui->viewerWidget->file = ui->inputFile->text();
 
     if (ui->viewerWidget->model.polygons != NULL) {
          free(ui->viewerWidget->model.polygons);
@@ -187,8 +212,8 @@ void MainWindow::openFile()
                  qDebug("AAAA %u\n", ui->viewerWidget->model.count_vert);
                  QFileInfo fi(ui->viewerWidget->file);
                  ui->filenameLabel->setText(fi.fileName());
-//                 ui->edgesLabel->setText(QString(ui->viewerWidget->model.count_edges));
-                 ui->verticlesLabel->setText(QString(ui->viewerWidget->model.count_vert));
+                 ui->edgesLabel->setText(QString::number(ui->viewerWidget->model.count_facets));
+                 ui->verticlesLabel->setText(QString::number(ui->viewerWidget->model.count_vert));
              }
             }
           }
@@ -228,8 +253,9 @@ void MainWindow::save() {
 
 void MainWindow::resizeModel()
 {
-    double scale = ui->scaleSlider->value() / 100;
-    resize_model(&(ui->viewerWidget->model), scale, scale, scale);
+    double scale = ui->scaleSlider->value() ;
+    scale = 0.01;
+//    resize_model(&(ui->viewerWidget->model), scale, scale, scale);
     glScalef(scale, scale, scale);
     ui->viewerWidget->repaint();
 }
