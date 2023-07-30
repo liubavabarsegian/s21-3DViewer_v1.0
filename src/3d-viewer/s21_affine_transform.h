@@ -7,7 +7,7 @@
 #define RETURN_WRONG_MATRIX 1
 #define RETURN_CALC_ERROR 2
 
-
+//int s21_transpose(s21_matrix* A, s21_matrix* result);
 /**
  - @brief Функция создания матрицы.
  - @param rows - количество строк
@@ -22,6 +22,15 @@ int s21_create_matrix(int rows, int columns, s21_matrix* result);
  - @result возвращает результирующую матрицу
  */
 s21_matrix s21_mult_matrix(s21_matrix *A, s21_matrix *B);
+
+/**
+ - @brief Функция перемножения матриц.
+ - @param A - указатель на левую матрицу
+ - @param B - указатель на правую матрицу
+ - @result возвращает результирующую матрицу
+ */
+void mult_matrix(double** A, double** B, double** result);
+
 /**
  - @brief Функция создания матрицы.
  - @param A - указатель на матрицу
@@ -44,7 +53,7 @@ s21_matrix create_af_matrix(double x, double y, double z);
  - @param z - координата "z"
  - @result возвращает матрицу масштабирования
  */
-s21_matrix create_resize_matrix(double x, double y, double z);
+s21_matrix* create_resize_matrix(double x, double y, double z);
 /**
  - @brief Функция вращения вокруг оси "x".
  - @param x - координата "x"

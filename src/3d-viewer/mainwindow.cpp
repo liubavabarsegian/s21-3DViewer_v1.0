@@ -253,9 +253,8 @@ void MainWindow::save() {
 
 void MainWindow::resizeModel()
 {
-    double scale = ui->scaleSlider->value() ;
-    scale = 0.01;
-//    resize_model(&(ui->viewerWidget->model), scale, scale, scale);
+    double scale = ui->scaleSlider->value();
+    resize_model(&(ui->viewerWidget->model), scale, scale, scale);
     glScalef(scale, scale, scale);
     ui->viewerWidget->repaint();
 }

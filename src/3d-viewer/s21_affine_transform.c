@@ -42,6 +42,18 @@ s21_matrix s21_mult_matrix(s21_matrix *A, s21_matrix *B) {
     return result;
 }
 
+void mult_matrix(double** A, double** B, double** result) {
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 1; ++j) {
+            double sum = 0;
+            for (int k = 0; k < 4; ++k) {
+                sum += A[i][k] * B[j][k];
+            }
+            result[j][i] = sum;
+        }
+    }
+}
+
 void s21_remove_matrix(s21_matrix *A) {
     if (A != NULL) {
     A->rows = 0;
@@ -63,13 +75,13 @@ s21_matrix create_af_matrix(double x, double y, double z) {
     return result;
 }
 
-s21_matrix create_resize_matrix(double x, double y, double z) {
-    s21_matrix result = {0};
-    s21_create_matrix(4, 4, &result);
-    result.matrix[0][0] = x;
-    result.matrix[1][1] = y;
-    result.matrix[2][2] = z;
-    result.matrix[3][3] = 1;
+s21_matrix* create_resize_matrix(double x, double y, double z) {
+    s21_matrix* result = (s21_matrix*)malloc(sizeof(s21_matrix));
+    create_matrix(result, 4, 4);
+    result->matrix[0][0] = x;
+    result->matrix[1][1] = y;
+    result->matrix[2][2] = z;
+    result->matrix[3][3] = 1;
     return result;
 }
 
@@ -123,13 +135,12 @@ void moving(s21_data *data, double x, double y, double z) {
 }
 
 void resize_model(s21_data *data, double x, double y, double z) {
-    s21_matrix result = create_resize_matrix(x, y, z);
+    s21_matrix* tmp = create_resize_matrix(x, y, z);
     for (int i = 0; i < data->count_vert; ++i) {
-        s21_matrix temp = data->matrix_3d[i];
-        data->matrix_3d[i] = s21_mult_matrix(&result, &(data->matrix_3d[i]));
-        s21_remove_matrix(&temp);
+//        data->matrix_3d[i] = s21_mult_matrix(&result, &(data->matrix_3d[i]));
+        mult_matrix(tmp->matrix, &(data->matrix_3d->matrix[i]), &(data->matrix_3d->matrix[i]));
     }
-    s21_remove_matrix(&result);
+//    s21_remove_matrix(&tmp);
 }
 
 void rotation(s21_data *data, double x, double y, double z) {

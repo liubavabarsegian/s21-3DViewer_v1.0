@@ -114,10 +114,10 @@ void OpenGL::drawLines()
             for (size_t j = 0; j < model.polygons->count_number_vert; j++)
             {
 //                qDebug("##: %lf\n", model.matrix_3d->matrix[model.polygons[i].vert[j]][0]);
-                double x = model.matrix_3d->matrix[model.polygons[i].vert[j]][0];
-                double y = model.matrix_3d->matrix[model.polygons[i].vert[j]][1];
-                double z = model.matrix_3d->matrix[model.polygons[i].vert[j]][2];
-                glVertex3f(x, y, z);
+//                double x = model.matrix_3d->matrix[model.polygons[i].vert[j]][0];
+//                double y = model.matrix_3d->matrix[model.polygons[i].vert[j]][1];
+//                double z = model.matrix_3d->matrix[model.polygons[i].vert[j]][2];
+//                glVertex3f(x, y, z);
     //            qDebug("x: %f y: %f z: %f", x, y, z);
             }
             glEnd();
