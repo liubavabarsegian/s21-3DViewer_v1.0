@@ -1,10 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    std::setlocale(LC_NUMERIC, "C");
+
     ui->setupUi(this);
     setWindowTitle("3D VIEWER");
     connect(ui->circleVerticles, &QRadioButton::clicked, this, &MainWindow::circleVerticles);
@@ -146,6 +149,23 @@ void MainWindow::openFile()
         ui->viewerWidget->file = dir.absolutePath() + ui->inputFile->text();
     else
         ui->viewerWidget->file = ui->inputFile->text();
+
+    //    s21_data model;
+        ui->viewerWidget->model.count_vert = 10;
+        ui->viewerWidget->model.count_facets = 10;
+        ui->viewerWidget->model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
+        if (ui->viewerWidget->model.matrix_3d != NULL) {
+          if (create_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->model.count_vert, 3) == OK) {
+            ui->viewerWidget->model.polygons = (s21_facets *)malloc(ui->viewerWidget->model.count_facets * sizeof(s21_facets));
+            int count_allocated_blocks = 0;
+            if (ui->viewerWidget->model.polygons != NULL) {
+             if(open_and_parse(&(ui->viewerWidget->model), ui->viewerWidget->file.toStdString().c_str(), &count_allocated_blocks) == OK){
+                 qDebug("AAAA %u\n", ui->viewerWidget->model.count_vert);
+             }
+            }
+          }
+        }
+
     ui->viewerWidget->repaint();
 }
 

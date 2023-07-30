@@ -13,11 +13,6 @@
 //	size_t numbers_of_vertices_in_facets;   ////// int count_number_vert;  // кол-во вершин необходимых для соединения
 //} polygon_t;  /// s21_facets;
 // стало
-typedef struct facets {     // хранения полигонов(f)
-    int *vert;              // массив номеров вершин
-    int count_number_vert;  // кол-во вершин необходимых для соединения
-} s21_facets;
-// было
 //typedef struct data {
     //size_t count_of_vertices;  ///// unsigned count_vert;    // кол-во вершин
     //size_t count_of_facets;  ///// unsigned count_facets;  // кол-во полигон
@@ -25,15 +20,21 @@ typedef struct facets {     // хранения полигонов(f)
     //polygon_t *polygons;   ///// s21_facets *polygons;
 //} data; ///// s21_data;
 // до этого матрица не использовалась
+
+typedef struct facets {     // хранения полигонов(f)
+    int *vert;              // массив номеров вершин
+    int count_number_vert;  // кол-во вершин необходимых для соединения
+} s21_facets;
+
 typedef struct matrix {  // структура матриц
     double **matrix;
-    unsigned int rows;
-    unsigned int columns;
+    int rows;
+    int columns;
 } s21_matrix;
 // стало
 typedef struct data {
-    unsigned int count_vert;    // кол-во вершин
-    unsigned int count_facets;  // кол-во полигон
+    unsigned count_vert;    // кол-во вершин
+    unsigned count_facets;  // кол-во полигон
     /// unsigned count_edge;    // кол-во рёбер  потом сделаем, если нужно будет
     s21_matrix *matrix_3d;
     s21_facets *polygons;
@@ -61,8 +62,8 @@ int scan_vertice(size_t *vertices_counter, char *line, s21_data *model);
 
 int scan_facet(size_t *facets_counter, FILE *fp, s21_data *model);
 
-int is_number(char symbol);
-
+// int is_number(char symbol);
+int is_number(int symbol);
 // print
 void print_polygon(s21_data *model);
 

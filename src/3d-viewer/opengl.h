@@ -6,9 +6,13 @@
 #include <QOpenGLFunctions>
 #include <QFile>
 
+//#include "parser.h"
 extern "C" {
     #include "parser.h"
 };
+
+//extern "C" int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in_matrix);
+//extern "C" int create_matrix(s21_matrix *matrix_3d, int rows, int columns);
 
 /**
  - @brief Класс виджета отрисовки модели

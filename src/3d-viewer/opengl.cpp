@@ -7,6 +7,7 @@ OpenGL::OpenGL(QWidget *parent)
     noVerticles = false;
     dashed = false;
     backgroundColor = Qt::white;
+    file = "../objs/cat.obj";
 }
 
 OpenGL::~OpenGL()
@@ -31,15 +32,15 @@ void OpenGL::initializeGL()
         model.polygons = (s21_facets *)malloc(model.count_facets * sizeof(s21_facets));
         int count_allocated_blocks = 0;
         if (model.polygons != NULL) {
-         if(open_and_parse(&model, "../objs/test_cat.obj", &count_allocated_blocks) == OK){
-             qDebug("AAAA %u\n", model.matrix_3d->rows);
+         if(open_and_parse(&model, file.toStdString().c_str(), &count_allocated_blocks) == OK){
+             qDebug("AAAA %u\n", model.count_vert);
          }
         }
       }
     }
     //преобразование матрицы так, чтобы
    //создавалась ортогональная проекци
-   glOrtho(0, 800, 0, 600, 1, 100);
+//   glOrtho(0, 800, 0, 600, 1, 100);
 }
 
 void OpenGL::paintGL()
@@ -51,7 +52,7 @@ void OpenGL::paintGL()
     glLoadIdentity();
     glRotatef(xRot, 1, 0, 0);
     glRotatef(yRot, 0, 1, 0);
-    glScalef(0.005, 0.005, 0.005);
+    glScalef(0.02, 0.02, 0.02);
     glPointSize(pointSize);
     if (noVerticles)
         glPointSize(1);
@@ -105,16 +106,15 @@ void OpenGL::drawVerticles()
     //рисует вершины
     glBegin(GL_POINTS);
         qDebug("rows: %d\n", model.count_vert);
-        for (size_t i = 0;  i < model.count_vert; i++)
+        for (unsigned int i = 1;  i <= model.matrix_3d->rows; i++)
         {
-//            double x = model.matrix_3d->matrix[i][0];
-//            double y = model.matrix_3d->matrix[i][1];
-//            double z = model.matrix_3d->matrix[i][2];
+            double x = model.matrix_3d->matrix[i][0];
+            double y = model.matrix_3d->matrix[i][1];
+            double z = model.matrix_3d->matrix[i][2];
 
-            double x = verticles[i];
-            double y = verticles[i+1];
-            double z = verticles[i+2];
-            i+= 3;
+//            double x = verticles[i];
+//            double y = verticles[i+1];
+//            double z = verticles[i+2];
             glVertex3d(x, y, z);
             qDebug("x: %f y: %f z: %f", x, y, z);
         }
