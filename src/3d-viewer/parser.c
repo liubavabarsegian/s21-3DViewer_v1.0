@@ -73,12 +73,13 @@ int scan_vertice(size_t *vertices_counter, char *line, s21_data *model) {
     ++*vertices_counter;
     if (*vertices_counter >= model->count_vert) {
       model->count_vert *= 2;
-      realloc_matrix(model->matrix_3d, model->count_vert, 3);
+      realloc_matrix(model->matrix_3d, model->count_vert, 4);
     }
     if (model->matrix_3d->matrix != NULL) {
       model->matrix_3d->matrix[*vertices_counter][0] = x;
       model->matrix_3d->matrix[*vertices_counter][1] = y;
       model->matrix_3d->matrix[*vertices_counter][2] = z;
+      model->matrix_3d->matrix[*vertices_counter][3] = 1;
     } else {
       ExitCode = ERROR;
     }

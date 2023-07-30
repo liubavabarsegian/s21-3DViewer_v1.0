@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->viewerWidget->model.count_facets = 10;
         ui->viewerWidget->model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
         if (ui->viewerWidget->model.matrix_3d != NULL) {
-          if (create_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->model.count_vert, 3) == OK) {
+          if (create_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->model.count_vert, 4) == OK) {
             ui->viewerWidget->model.polygons = (s21_facets *)malloc(ui->viewerWidget->model.count_facets * sizeof(s21_facets));
             int count_allocated_blocks = 0;
             if (ui->viewerWidget->model.polygons != NULL) {
@@ -86,11 +86,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    if (ui->viewerWidget->model.polygons != NULL) {
-         free(ui->viewerWidget->model.polygons);
-         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
-         free(ui->viewerWidget->model.matrix_3d);
-       }
+//    if (ui->viewerWidget->model.polygons != NULL) {
+//         free(ui->viewerWidget->model.polygons);
+//         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
+//         free(ui->viewerWidget->model.matrix_3d);
+//       }
 
 
     // Сохранение параметров при закрытии окна
@@ -193,18 +193,18 @@ void MainWindow::openFile()
 {
     ui->viewerWidget->file = ui->inputFile->text();
 
-    if (ui->viewerWidget->model.polygons != NULL) {
-         free(ui->viewerWidget->model.polygons);
-         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
-         free(ui->viewerWidget->model.matrix_3d);
-       }
+//    if (ui->viewerWidget->model.polygons != NULL) {
+//         free(ui->viewerWidget->model.polygons);
+//         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
+//         free(ui->viewerWidget->model.matrix_3d);
+//       }
 
     //    s21_data model;
         ui->viewerWidget->model.count_vert = 10;
         ui->viewerWidget->model.count_facets = 10;
         ui->viewerWidget->model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
         if (ui->viewerWidget->model.matrix_3d != NULL) {
-          if (create_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->model.count_vert, 3) == OK) {
+          if (create_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->model.count_vert, 4) == OK) {
             ui->viewerWidget->model.polygons = (s21_facets *)malloc(ui->viewerWidget->model.count_facets * sizeof(s21_facets));
             int count_allocated_blocks = 0;
             if (ui->viewerWidget->model.polygons != NULL) {
