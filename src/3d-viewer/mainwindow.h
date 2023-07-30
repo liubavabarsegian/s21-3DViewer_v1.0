@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
-#include "opengl.h"
 #include "qgifimage.h"
 
 QT_BEGIN_NAMESPACE
@@ -87,5 +86,9 @@ public slots:
     - @brief Функция сохранения скриншота
     */
     void saveImage();
+    /**
+    - @brief Функция масштабирования модели
+    */
+    void resizeModel();
 };
 #endif // MAINWINDOW_H

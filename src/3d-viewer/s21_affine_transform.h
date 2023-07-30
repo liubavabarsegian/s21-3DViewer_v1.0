@@ -1,46 +1,12 @@
 #ifndef SRC_S21_AFFINE_TRANSFORM_H_
 #define SRC_S21_AFFINE_TRANSFORM_H_
 #include <stdlib.h>
+#include "parser.h"
 
 #define RETURN_OK 0
 #define RETURN_WRONG_MATRIX 1
 #define RETURN_CALC_ERROR 2
 
-/**
- - @brief Структура для хранения матриц.
- - @param matrix - представление матрицы
- - @param rows - количество строк
- - @param columns - количество столбцов
- */
-typedef struct matrix {
-    double **matrix;
-    int rows;
-    int columns;
-} s21_matrix;
-
-/**
- - @brief Структура для хранения полигонов (f).
- - @param vert - массив номеров вершин
- - @param count_number_vert - количество вершин, необходимых для соединения
- */
-typedef struct facets {
-    int *vert;
-    int count_number_vert;
-} s21_facets;
-
-/**
- - @brief Структура для хранения данных.
- - @param count_vert - количество вершин
- - @param count_facets - количество полигонов
- - @param matrix_3d - структура матрицы
- - @param polygons - структура хранения полигонов
- */
-typedef struct data {
-    unsigned count_vert;
-    unsigned count_facets;
-    s21_matrix *matrix_3d;
-    s21_facets *polygons;
-} s21_data;
 
 /**
  - @brief Функция создания матрицы.
@@ -114,7 +80,7 @@ void moving(s21_data *data, double x, double y, double z);
  - @param data - указатель на данные
  - @result выполняет масштабирование модели
  */
-void resize(s21_data *data, double x, double y, double z);
+void resize_model(s21_data *data, double x, double y, double z);
 /**
  - @brief Функция вращения.
  - @param x - координата "x"

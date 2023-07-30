@@ -9,6 +9,7 @@
 //#include "parser.h"
 extern "C" {
     #include "parser.h"
+    #include "s21_affine_transform.h"
 };
 
 //extern "C" int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in_matrix);
@@ -40,12 +41,15 @@ public:
     int pointSize;
     int edgeSize;
     bool noVerticles;
+    bool circleVerticles;
+    bool squareVerticles;
     bool dashed;
     QColor verticlesColor;
     QColor edgesColor;
     QColor backgroundColor;
     QString file;
     s21_data model;
+    int allocated_blocks;
     /**
     - @brief Функция записи экрана
     */

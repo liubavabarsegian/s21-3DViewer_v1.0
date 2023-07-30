@@ -60,7 +60,7 @@ int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in
    print_matrix(*(model->matrix_3d));
    printf("\n");
    print_polygon(model);
-  free_vertices_in_facets(model);
+  // free_vertices_in_facets(model);
   }
   return ExitCode;
 }

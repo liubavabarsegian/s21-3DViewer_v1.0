@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1189</width>
-    <height>791</height>
+    <width>1325</width>
+    <height>902</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,16 +53,16 @@ border-radius: 20px;</string>
      <rect>
       <x>30</x>
       <y>90</y>
-      <width>761</width>
-      <height>561</height>
+      <width>911</width>
+      <height>631</height>
      </rect>
     </property>
    </widget>
    <widget class="QLineEdit" name="inputFile">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>90</y>
+      <x>970</x>
+      <y>80</y>
       <width>241</width>
       <height>31</height>
      </rect>
@@ -77,8 +77,8 @@ border-radius: 10px;
    <widget class="QPushButton" name="openFileButton">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>130</y>
+      <x>970</x>
+      <y>120</y>
       <width>301</width>
       <height>41</height>
      </rect>
@@ -104,8 +104,8 @@ border-radius: 20px;</string>
    <widget class="QComboBox" name="typeOfProjectionBox">
     <property name="geometry">
      <rect>
-      <x>980</x>
-      <y>190</y>
+      <x>1130</x>
+      <y>180</y>
       <width>141</width>
       <height>31</height>
      </rect>
@@ -130,8 +130,8 @@ border-radius: 10px;
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>200</y>
+      <x>980</x>
+      <y>190</y>
       <width>141</width>
       <height>17</height>
      </rect>
@@ -154,8 +154,8 @@ border-radius: 10px;
     </property>
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>240</y>
+      <x>980</x>
+      <y>230</y>
       <width>291</width>
       <height>181</height>
      </rect>
@@ -216,7 +216,7 @@ color: white;</string>
        <number>1</number>
       </property>
       <property name="maximum">
-       <number>20</number>
+       <number>100</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -439,11 +439,17 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="scaleSlider">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>430</y>
+      <x>1070</x>
+      <y>420</y>
       <width>201</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -452,8 +458,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>430</y>
+      <x>980</x>
+      <y>420</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -473,8 +479,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>470</y>
+      <x>980</x>
+      <y>460</y>
       <width>67</width>
       <height>17</height>
      </rect>
@@ -494,8 +500,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>470</y>
+      <x>1070</x>
+      <y>460</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -510,8 +516,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>500</y>
+      <x>1070</x>
+      <y>490</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -526,8 +532,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>530</y>
+      <x>1070</x>
+      <y>520</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -542,8 +548,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="XRotateSlider">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>470</y>
+      <x>1110</x>
+      <y>460</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -555,8 +561,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="YRotateSlider">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>500</y>
+      <x>1110</x>
+      <y>490</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -568,8 +574,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="ZRotateSlider">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>530</y>
+      <x>1110</x>
+      <y>520</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -581,8 +587,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>630</y>
+      <x>1070</x>
+      <y>620</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -597,8 +603,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_16">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>600</y>
+      <x>1070</x>
+      <y>590</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -613,8 +619,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="XTranslateSlider">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>570</y>
+      <x>1110</x>
+      <y>560</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -626,8 +632,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_17">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>570</y>
+      <x>980</x>
+      <y>560</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -647,8 +653,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="YTranslateSlider">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>600</y>
+      <x>1110</x>
+      <y>590</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -660,8 +666,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QSlider" name="ZTranslateSlider">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>630</y>
+      <x>1110</x>
+      <y>620</y>
       <width>160</width>
       <height>16</height>
      </rect>
@@ -673,8 +679,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QLabel" name="label_18">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>570</y>
+      <x>1070</x>
+      <y>560</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -690,7 +696,7 @@ color: rgb(0, 15, 88);</string>
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>670</y>
+      <y>760</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -711,7 +717,7 @@ color: rgb(0, 15, 88);</string>
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>670</y>
+      <y>760</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -732,7 +738,7 @@ color: rgb(0, 15, 88);</string>
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>670</y>
+      <y>760</y>
       <width>67</width>
       <height>21</height>
      </rect>
@@ -752,8 +758,8 @@ color: rgb(0, 15, 88);</string>
    <widget class="QPushButton" name="inputFileButton">
     <property name="geometry">
      <rect>
-      <x>1060</x>
-      <y>80</y>
+      <x>1210</x>
+      <y>70</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -780,7 +786,7 @@ color: rgb(0, 15, 88);</string>
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>660</y>
+      <y>750</y>
       <width>61</width>
       <height>51</height>
      </rect>
@@ -807,7 +813,7 @@ color: rgb(0, 15, 88);</string>
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>670</y>
+      <y>760</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -825,6 +831,69 @@ color: rgb(0, 15, 88);</string>
       <width>50</width>
       <height>50</height>
      </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="filenameLabel">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>800</y>
+      <width>131</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="verticlesLabel">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>800</y>
+      <width>67</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="edgesLabel">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>800</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white;</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <zorder>inputFileButton</zorder>
@@ -856,13 +925,16 @@ color: rgb(0, 15, 88);</string>
    <zorder>label_21</zorder>
    <zorder>recordButton</zorder>
    <zorder>saveButton</zorder>
+   <zorder>filenameLabel</zorder>
+   <zorder>verticlesLabel</zorder>
+   <zorder>edgesLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1189</width>
+     <width>1325</width>
      <height>22</height>
     </rect>
    </property>

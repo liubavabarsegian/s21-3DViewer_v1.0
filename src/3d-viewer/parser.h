@@ -6,40 +6,41 @@
 #include <stdlib.h>
 
 
-
-// было
-// typedef struct facets {
-    //int *vertices;  /////////   int *vert;              // массив номеров вершин
-//	size_t numbers_of_vertices_in_facets;   ////// int count_number_vert;  // кол-во вершин необходимых для соединения
-//} polygon_t;  /// s21_facets;
-// стало
-//typedef struct data {
-    //size_t count_of_vertices;  ///// unsigned count_vert;    // кол-во вершин
-    //size_t count_of_facets;  ///// unsigned count_facets;  // кол-во полигон
-    //vertice *vertices;
-    //polygon_t *polygons;   ///// s21_facets *polygons;
-//} data; ///// s21_data;
-// до этого матрица не использовалась
-
-typedef struct facets {     // хранения полигонов(f)
-    int *vert;              // массив номеров вершин
-    int count_number_vert;  // кол-во вершин необходимых для соединения
-} s21_facets;
-
-typedef struct matrix {  // структура матриц
+/**
+ - @brief Структура для хранения матриц.
+ - @param matrix - представление матрицы
+ - @param rows - количество строк
+ - @param columns - количество столбцов
+ */
+typedef struct matrix {
     double **matrix;
     int rows;
     int columns;
 } s21_matrix;
-// стало
+
+/**
+ - @brief Структура для хранения полигонов (f).
+ - @param vert - массив номеров вершин
+ - @param count_number_vert - количество вершин, необходимых для соединения
+ */
+typedef struct facets {
+    int *vert;
+    int count_number_vert;
+} s21_facets;
+
+/**
+ - @brief Структура для хранения данных.
+ - @param count_vert - количество вершин
+ - @param count_facets - количество полигонов
+ - @param matrix_3d - структура матрицы
+ - @param polygons - структура хранения полигонов
+ */
 typedef struct data {
-    unsigned count_vert;    // кол-во вершин
-    unsigned count_facets;  // кол-во полигон
-    /// unsigned count_edge;    // кол-во рёбер  потом сделаем, если нужно будет
+    unsigned count_vert;
+    unsigned count_facets;
     s21_matrix *matrix_3d;
     s21_facets *polygons;
 } s21_data;
-
 
 
 #define  OK 0

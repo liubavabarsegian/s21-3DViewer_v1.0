@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
+    connect(ui->scaleSlider, &QSlider::sliderMoved, this, &MainWindow::resizeModel);
 
     // Загрузка параметров при открытии окна
     QSettings settings("S21", "3DV");
@@ -34,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
     QColor verticlesColor = settings.value("verticlesColor", QColor(Qt::red)).value<QColor>();
     QColor edgesColor = settings.value("edgesColor", QColor(Qt::blue)).value<QColor>();
     QColor backgroundColor = settings.value("backgroundColor", QColor(Qt::white)).value<QColor>();
+    QString file = settings.value("file", "").toString();
+    bool circleVerticles = settings.value("circleVerticles", true).toBool();
+    bool squreVerticles = settings.value("squareVerticles", false).toBool();
+    bool noVerticles = settings.value("noVerticles", false).toBool();
 
     // Применение загруженных параметров
     ui->verticlesSlider->setValue(verticlesSize);
@@ -49,6 +54,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->viewerWidget->verticlesColor = verticlesColor;
     ui->viewerWidget->edgesColor = edgesColor;
     ui->viewerWidget->backgroundColor = backgroundColor;
+    ui->viewerWidget->file = file;
+    ui->viewerWidget->noVerticles = noVerticles;
+    ui->viewerWidget->circleVerticles = circleVerticles;
+    ui->viewerWidget->squareVerticles = squreVerticles;
     ui->viewerWidget->repaint();
 }
 
@@ -63,12 +72,17 @@ MainWindow::~MainWindow()
     settings.setValue("verticlesColor", ui->viewerWidget->verticlesColor);
     settings.setValue("edgesColor", ui->viewerWidget->edgesColor);
     settings.setValue("backgroundColor", ui->viewerWidget->backgroundColor);
-
+    settings.setValue("file", ui->viewerWidget->file);
+    settings.setValue("noVerticles", ui->viewerWidget->noVerticles);
+    settings.setValue("circleVarticles", ui->viewerWidget->circleVerticles);
+    settings.setValue("squareVerticles", ui->viewerWidget->squareVerticles);
     delete ui;
 }
 
 void MainWindow::circleVerticles()
 {
+    ui->viewerWidget->squareVerticles = false;
+    ui->viewerWidget->circleVerticles = true;
     //сглаживание вершин
     glEnable(GL_POINT_SMOOTH);
     glPointSize(ui->viewerWidget->pointSize);
@@ -78,6 +92,8 @@ void MainWindow::circleVerticles()
 
 void MainWindow::squareVerticles()
 {
+    ui->viewerWidget->circleVerticles = false;
+    ui->viewerWidget->squareVerticles = true;
     glDisable(GL_POINT_SMOOTH);
     glPointSize(ui->viewerWidget->pointSize);
     ui->viewerWidget->noVerticles = false;
@@ -87,12 +103,14 @@ void MainWindow::squareVerticles()
 void MainWindow::noVerticles()
 {
     ui->viewerWidget->noVerticles = true;
+    ui->viewerWidget->circleVerticles = false;
+    ui->viewerWidget->squareVerticles = false;
     ui->viewerWidget->repaint();
 }
 
 void MainWindow::resizeVerticles()
 {
-    ui->viewerWidget->pointSize = ui->verticlesSlider->value();
+    ui->viewerWidget->pointSize = ui->verticlesSlider->value() / 10;
     ui->viewerWidget->repaint();
 }
 
@@ -150,6 +168,12 @@ void MainWindow::openFile()
     else
         ui->viewerWidget->file = ui->inputFile->text();
 
+    if (ui->viewerWidget->model.polygons != NULL) {
+         free(ui->viewerWidget->model.polygons);
+         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
+         free(ui->viewerWidget->model.matrix_3d);
+       }
+
     //    s21_data model;
         ui->viewerWidget->model.count_vert = 10;
         ui->viewerWidget->model.count_facets = 10;
@@ -161,6 +185,10 @@ void MainWindow::openFile()
             if (ui->viewerWidget->model.polygons != NULL) {
              if(open_and_parse(&(ui->viewerWidget->model), ui->viewerWidget->file.toStdString().c_str(), &count_allocated_blocks) == OK){
                  qDebug("AAAA %u\n", ui->viewerWidget->model.count_vert);
+                 QFileInfo fi(ui->viewerWidget->file);
+                 ui->filenameLabel->setText(fi.fileName());
+//                 ui->edgesLabel->setText(QString(ui->viewerWidget->model.count_edges));
+                 ui->verticlesLabel->setText(QString(ui->viewerWidget->model.count_vert));
              }
             }
           }
@@ -196,4 +224,12 @@ void MainWindow::save() {
     save = QFileDialog::getSaveFileName(this, NULL, NULL, "GIF (*.gif)");
     if (!save.isNull()) gif->save(save);
   }
+}
+
+void MainWindow::resizeModel()
+{
+    double scale = ui->scaleSlider->value() / 100;
+    resize_model(&(ui->viewerWidget->model), scale, scale, scale);
+    glScalef(scale, scale, scale);
+    ui->viewerWidget->repaint();
 }
