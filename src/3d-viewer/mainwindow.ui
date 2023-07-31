@@ -548,45 +548,6 @@ color: rgb(0, 15, 88);</string>
      <string>Z</string>
     </property>
    </widget>
-   <widget class="QSlider" name="XRotateSlider">
-    <property name="geometry">
-     <rect>
-      <x>1110</x>
-      <y>460</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="YRotateSlider">
-    <property name="geometry">
-     <rect>
-      <x>1110</x>
-      <y>490</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="ZRotateSlider">
-    <property name="geometry">
-     <rect>
-      <x>1110</x>
-      <y>520</y>
-      <width>160</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
@@ -628,6 +589,12 @@ color: rgb(0, 15, 88);</string>
       <height>16</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-10</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -662,6 +629,12 @@ color: rgb(0, 15, 88);</string>
       <height>16</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>-10</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -674,6 +647,12 @@ color: rgb(0, 15, 88);</string>
       <width>160</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>-10</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -775,7 +754,7 @@ color: rgb(0, 15, 88);</string>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>../3d-viewer/imgs/folder.png</selectedon>
+      <selectedon>imgs/folder.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
@@ -802,7 +781,7 @@ color: rgb(0, 15, 88);</string>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>../3d-viewer/imgs/camera.png</selectedon>
+      <selectedon>imgs/camera.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
@@ -826,7 +805,7 @@ color: rgb(0, 15, 88);</string>
     </property>
     <property name="icon">
      <iconset>
-      <selectedon>../3d-viewer/imgs/save.png</selectedon>
+      <selectedon>imgs/save.png</selectedon>
      </iconset>
     </property>
     <property name="iconSize">
@@ -899,6 +878,108 @@ color: rgb(0, 15, 88);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="x_dec">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>440</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(153, 193, 241);
+color: rgb(0, 15, 88);</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="x_inc">
+    <property name="geometry">
+     <rect>
+      <x>1180</x>
+      <y>440</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(153, 193, 241);
+color: rgb(0, 15, 88);</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="y_dec">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>480</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(153, 193, 241);
+color: rgb(0, 15, 88);</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="y_inc">
+    <property name="geometry">
+     <rect>
+      <x>1180</x>
+      <y>480</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(153, 193, 241);
+color: rgb(0, 15, 88);</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="z_dec">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>520</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(153, 193, 241);
+color: rgb(0, 15, 88);</string>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="z_inc">
+    <property name="geometry">
+     <rect>
+      <x>1180</x>
+      <y>520</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(153, 193, 241);
+color: rgb(0, 15, 88);</string>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
    <zorder>inputFileButton</zorder>
    <zorder>label</zorder>
    <zorder>viewerWidget</zorder>
@@ -913,9 +994,6 @@ color: rgb(0, 15, 88);</string>
    <zorder>label_12</zorder>
    <zorder>label_13</zorder>
    <zorder>label_14</zorder>
-   <zorder>XRotateSlider</zorder>
-   <zorder>YRotateSlider</zorder>
-   <zorder>ZRotateSlider</zorder>
    <zorder>label_15</zorder>
    <zorder>label_16</zorder>
    <zorder>XTranslateSlider</zorder>
@@ -931,6 +1009,12 @@ color: rgb(0, 15, 88);</string>
    <zorder>filenameLabel</zorder>
    <zorder>verticlesLabel</zorder>
    <zorder>edgesLabel</zorder>
+   <zorder>x_dec</zorder>
+   <zorder>x_inc</zorder>
+   <zorder>y_dec</zorder>
+   <zorder>y_inc</zorder>
+   <zorder>z_dec</zorder>
+   <zorder>z_inc</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -938,7 +1022,7 @@ color: rgb(0, 15, 88);</string>
      <x>0</x>
      <y>0</y>
      <width>1325</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

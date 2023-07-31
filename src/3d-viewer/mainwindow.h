@@ -93,7 +93,7 @@ public slots:
     /**
     - @brief Функция поворотов модели
     */
-    void rotateModel();
+    void rotateModel(double x, double y, double z);
     /**
     - @brief Функция перемещения модели
     */

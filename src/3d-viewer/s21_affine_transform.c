@@ -141,18 +141,23 @@ void resize_model(s21_data *data, double x, double y, double z) {
 }
 
 void rotation(s21_data *data, double x, double y, double z) {
-    s21_matrix x_matrix = create_x_rotation_matrix(x);
-    s21_matrix y_matrix = create_y_rotation_matrix(y);
-    s21_matrix z_matrix = create_z_rotation_matrix(z);
-    s21_matrix temp_res = s21_mult_matrix(&x_matrix, &y_matrix);
-    s21_matrix res = s21_mult_matrix(&temp_res, &z_matrix);
-    for (int i = 0; i < data->count_vert; ++i) {
-        mult_matrix(res.matrix, &(data->matrix_3d->matrix[i]), &(data->matrix_3d->matrix[i]));
+    if (x != 0) {
+        s21_matrix x_matrix = create_x_rotation_matrix(x);
+        for (int i = 0; i < data->count_vert; ++i) {
+            mult_matrix(x_matrix.matrix, &(data->matrix_3d->matrix[i]), &(data->matrix_3d->matrix[i]));
+        }
+        s21_remove_matrix(&x_matrix);
+    } else if (y != 0) {
+        s21_matrix y_matrix = create_y_rotation_matrix(y);
+        for (int i = 0; i < data->count_vert; ++i) {
+            mult_matrix(y_matrix.matrix, &(data->matrix_3d->matrix[i]), &(data->matrix_3d->matrix[i]));
+        }
+        s21_remove_matrix(&y_matrix);
+    } else if (z != 0) {
+        s21_matrix z_matrix = create_z_rotation_matrix(z);
+        for (int i = 0; i < data->count_vert; ++i) {
+            mult_matrix(z_matrix.matrix, &(data->matrix_3d->matrix[i]), &(data->matrix_3d->matrix[i]));
+        }
+        s21_remove_matrix(&z_matrix);
     }
-
-    s21_remove_matrix(&x_matrix);
-    s21_remove_matrix(&y_matrix);
-    s21_remove_matrix(&z_matrix);
-    s21_remove_matrix(&temp_res);
-    s21_remove_matrix(&res);
 }

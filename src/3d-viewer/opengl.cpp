@@ -107,9 +107,9 @@ void OpenGL::drawVerticles()
 void OpenGL::drawLines()
 {
     //соединяет линии по точкам подряд
-        printf("Vert = %u\n", model.count_vert);    //
-        printf("Polygons = %u\n", model.count_facets);
-        print_polygon(&model);
+//        printf("Vert = %u\n", model.count_vert);    //
+//        printf("Polygons = %u\n", model.count_facets);
+//        print_polygon(&model);
         for (size_t i = 0; i < model.count_facets; i++)
         {
             glBegin(GL_LINE_LOOP);

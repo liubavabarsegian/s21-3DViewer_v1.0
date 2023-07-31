@@ -25,9 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
     connect(ui->scaleSlider, &QSlider::sliderMoved, this, &MainWindow::resizeModel);
-    connect(ui->XRotateSlider, &QSlider::sliderMoved, this, &MainWindow::rotateModel);
-    connect(ui->YRotateSlider, &QSlider::sliderMoved, this, &MainWindow::rotateModel);
-    connect(ui->ZRotateSlider, &QSlider::sliderMoved, this, &MainWindow::rotateModel);
+    connect(ui->x_dec, &QPushButton::clicked, this, [this]{rotateModel(-1, 0, 0);});
+    connect(ui->x_inc, &QPushButton::clicked, this, [this]{rotateModel(1, 0, 0);});
+    connect(ui->y_dec, &QPushButton::clicked, this, [this]{rotateModel(0, -1, 0);});
+    connect(ui->y_inc, &QPushButton::clicked, this, [this]{rotateModel(0, 1, 0);});
+    connect(ui->z_dec, &QPushButton::clicked, this, [this]{rotateModel(0, 0, -1);});
+    connect(ui->z_inc, &QPushButton::clicked, this, [this]{rotateModel(0, 0, 1);});
     connect(ui->XTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
     connect(ui->YTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
     connect(ui->ZTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
@@ -46,6 +49,9 @@ MainWindow::MainWindow(QWidget *parent)
     bool noVerticles = settings.value("noVerticles", false).toBool();
 
     // Применение загруженных параметров
+    ui->XTranslateSlider->setValue(0);
+    ui->YTranslateSlider->setValue(0);
+    ui->ZTranslateSlider->setValue(0);
     ui->verticlesSlider->setValue(verticlesSize);
     ui->viewerWidget->pointSize = verticlesSize;
     ui->edgesSize->setValue(edgesSize);
@@ -261,18 +267,19 @@ void MainWindow::resizeModel()
 {
     double scale = ui->scaleSlider->value();
     resize_model(&(ui->viewerWidget->model), scale, scale, scale);
-    glScalef(scale, scale, scale);
     ui->viewerWidget->repaint();
 }
 
-void MainWindow::rotateModel()
+void MainWindow::rotateModel(double x, double y, double z)
 {
-    double xrotate = ui->XRotateSlider->value();
-    double yrotate = ui->YRotateSlider->value();
-    double zrotate = ui->ZRotateSlider->value();
-    rotation(&(ui->viewerWidget->model), xrotate, yrotate, zrotate);
-    glScalef(xrotate, yrotate, zrotate);
+//    double xrotate = ui->XRotateSlider->value();
+//    double yrotate = ui->YRotateSlider->value();
+//    double zrotate = ui->ZRotateSlider->value();
+    print_matrix(*(ui->viewerWidget->model.matrix_3d));
+    printf("\n");
+    rotation(&(ui->viewerWidget->model), x, y, z);
     ui->viewerWidget->repaint();
+    print_matrix(*(ui->viewerWidget->model.matrix_3d));
 }
 
 void MainWindow::moveModel()
@@ -281,6 +288,5 @@ void MainWindow::moveModel()
     double ymove = ui->YTranslateSlider->value();
     double zmove = ui->ZTranslateSlider->value();
     moving(&(ui->viewerWidget->model), xmove, ymove, zmove);
-    glScalef(xmove, ymove, zmove);
     ui->viewerWidget->repaint();
 }
