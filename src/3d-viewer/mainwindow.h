@@ -90,5 +90,13 @@ public slots:
     - @brief Функция масштабирования модели
     */
     void resizeModel();
+    /**
+    - @brief Функция поворотов модели
+    */
+    void rotateModel();
+    /**
+    - @brief Функция перемещения модели
+    */
+    void moveModel();
 };
 #endif // MAINWINDOW_H

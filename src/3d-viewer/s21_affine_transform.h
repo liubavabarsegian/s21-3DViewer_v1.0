@@ -53,7 +53,7 @@ s21_matrix create_af_matrix(double x, double y, double z);
  - @param z - координата "z"
  - @result возвращает матрицу масштабирования
  */
-s21_matrix* create_resize_matrix(double x, double y, double z);
+s21_matrix create_resize_matrix(double x, double y, double z);
 /**
  - @brief Функция вращения вокруг оси "x".
  - @param x - координата "x"

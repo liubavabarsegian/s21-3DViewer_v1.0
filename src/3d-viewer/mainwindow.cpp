@@ -25,6 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
     connect(ui->scaleSlider, &QSlider::sliderMoved, this, &MainWindow::resizeModel);
+    connect(ui->XRotateSlider, &QSlider::sliderMoved, this, &MainWindow::rotateModel);
+    connect(ui->YRotateSlider, &QSlider::sliderMoved, this, &MainWindow::rotateModel);
+    connect(ui->ZRotateSlider, &QSlider::sliderMoved, this, &MainWindow::rotateModel);
+    connect(ui->XTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
+    connect(ui->YTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
+    connect(ui->ZTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
 
     // Загрузка параметров при открытии окна
     QSettings settings("S21", "3DV");
@@ -256,5 +262,25 @@ void MainWindow::resizeModel()
     double scale = ui->scaleSlider->value();
     resize_model(&(ui->viewerWidget->model), scale, scale, scale);
     glScalef(scale, scale, scale);
+    ui->viewerWidget->repaint();
+}
+
+void MainWindow::rotateModel()
+{
+    double xrotate = ui->XRotateSlider->value();
+    double yrotate = ui->YRotateSlider->value();
+    double zrotate = ui->ZRotateSlider->value();
+    rotation(&(ui->viewerWidget->model), xrotate, yrotate, zrotate);
+    glScalef(xrotate, yrotate, zrotate);
+    ui->viewerWidget->repaint();
+}
+
+void MainWindow::moveModel()
+{
+    double xmove = ui->XTranslateSlider->value();
+    double ymove = ui->YTranslateSlider->value();
+    double zmove = ui->ZTranslateSlider->value();
+    moving(&(ui->viewerWidget->model), xmove, ymove, zmove);
+    glScalef(xmove, ymove, zmove);
     ui->viewerWidget->repaint();
 }
