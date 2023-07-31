@@ -25,15 +25,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
     connect(ui->scaleSlider, &QSlider::sliderMoved, this, &MainWindow::resizeModel);
-    connect(ui->x_dec, &QPushButton::clicked, this, [this]{rotateModel(-1, 0, 0);});
-    connect(ui->x_inc, &QPushButton::clicked, this, [this]{rotateModel(1, 0, 0);});
-    connect(ui->y_dec, &QPushButton::clicked, this, [this]{rotateModel(0, -1, 0);});
-    connect(ui->y_inc, &QPushButton::clicked, this, [this]{rotateModel(0, 1, 0);});
-    connect(ui->z_dec, &QPushButton::clicked, this, [this]{rotateModel(0, 0, -1);});
-    connect(ui->z_inc, &QPushButton::clicked, this, [this]{rotateModel(0, 0, 1);});
-    connect(ui->XTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
-    connect(ui->YTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
-    connect(ui->ZTranslateSlider, &QSlider::sliderMoved, this, &MainWindow::moveModel);
+    connect(ui->x_dec, &QPushButton::clicked, this, [this]{rotateModel(-5, 0, 0);});
+    connect(ui->x_inc, &QPushButton::clicked, this, [this]{rotateModel(5, 0, 0);});
+    connect(ui->y_dec, &QPushButton::clicked, this, [this]{rotateModel(0, -5, 0);});
+    connect(ui->y_inc, &QPushButton::clicked, this, [this]{rotateModel(0, 5, 0);});
+    connect(ui->z_dec, &QPushButton::clicked, this, [this]{rotateModel(0, 0, -5);});
+    connect(ui->z_inc, &QPushButton::clicked, this, [this]{rotateModel(0, 0, 5);});
+    connect(ui->x_dec_2, &QPushButton::clicked, this, [this]{moveModel(-5, 0, 0);});
+    connect(ui->x_inc_2, &QPushButton::clicked, this, [this]{moveModel(5, 0, 0);});
+    connect(ui->y_dec_2, &QPushButton::clicked, this, [this]{moveModel(0, -5, 0);});
+    connect(ui->y_inc_2, &QPushButton::clicked, this, [this]{moveModel(0, 5, 0);});
+    connect(ui->z_dec_2, &QPushButton::clicked, this, [this]{moveModel(0, 0, -5);});
+    connect(ui->z_inc_2, &QPushButton::clicked, this, [this]{moveModel(0, 0, 5);});
 
     // Загрузка параметров при открытии окна
     QSettings settings("S21", "3DV");
@@ -49,9 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
     bool noVerticles = settings.value("noVerticles", false).toBool();
 
     // Применение загруженных параметров
-    ui->XTranslateSlider->setValue(0);
-    ui->YTranslateSlider->setValue(0);
-    ui->ZTranslateSlider->setValue(0);
     ui->verticlesSlider->setValue(verticlesSize);
     ui->viewerWidget->pointSize = verticlesSize;
     ui->edgesSize->setValue(edgesSize);
@@ -282,11 +282,8 @@ void MainWindow::rotateModel(double x, double y, double z)
     print_matrix(*(ui->viewerWidget->model.matrix_3d));
 }
 
-void MainWindow::moveModel()
+void MainWindow::moveModel(double x, double y, double z)
 {
-    double xmove = ui->XTranslateSlider->value();
-    double ymove = ui->YTranslateSlider->value();
-    double zmove = ui->ZTranslateSlider->value();
-    moving(&(ui->viewerWidget->model), xmove, ymove, zmove);
+    moving(&(ui->viewerWidget->model), x, y, z);
     ui->viewerWidget->repaint();
 }

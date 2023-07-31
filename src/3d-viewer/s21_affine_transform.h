@@ -15,13 +15,6 @@
  - @result возвращает матрицу размерности [rows, columns]
  */
 int s21_create_matrix(int rows, int columns, s21_matrix* result);
-/**
- - @brief Функция перемножения матриц.
- - @param A - указатель на левую матрицу
- - @param B - указатель на правую матрицу
- - @result возвращает результирующую матрицу
- */
-s21_matrix s21_mult_matrix(s21_matrix *A, s21_matrix *B);
 
 /**
  - @brief Функция перемножения матриц.

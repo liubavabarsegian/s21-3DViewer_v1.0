@@ -97,6 +97,6 @@ public slots:
     /**
     - @brief Функция перемещения модели
     */
-    void moveModel();
+    void moveModel(double x, double y, double z);
 };
 #endif // MAINWINDOW_H
