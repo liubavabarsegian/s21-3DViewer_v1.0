@@ -57,10 +57,10 @@ int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in
   *blocks_to_free_in_matrix = model->matrix_3d->rows;
   model->matrix_3d->rows = vertice_counter;
   model->count_facets = facet_counter;
-   print_matrix(*(model->matrix_3d));
-   printf("\n");
-   print_polygon(model);
-  free_vertices_in_facets(model);
+//   print_matrix(*(model->matrix_3d));
+//   printf("\n");
+//   print_polygon(model);
+//  free_vertices_in_facets(model);
   }
   return ExitCode;
 }

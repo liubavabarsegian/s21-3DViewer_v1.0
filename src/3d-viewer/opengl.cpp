@@ -93,7 +93,7 @@ void OpenGL::drawVerticles()
 
     glBegin(GL_POINTS);
 //        qDebug("rows: %d\n", model.count_vert);
-        for (unsigned int i = 1;  i <= model.matrix_3d->rows; i++)
+        for (unsigned int i = 0;  i < model.matrix_3d->rows; i++)
         {
             double x = model.matrix_3d->matrix[i][0];
             double y = model.matrix_3d->matrix[i][1];
@@ -107,6 +107,9 @@ void OpenGL::drawVerticles()
 void OpenGL::drawLines()
 {
     //соединяет линии по точкам подряд
+        printf("Vert = %u\n", model.count_vert);    //
+        printf("Polygons = %u\n", model.count_facets);
+        print_polygon(&model);
         for (size_t i = 0; i < model.count_facets; i++)
         {
             glBegin(GL_LINE_LOOP);
@@ -114,12 +117,13 @@ void OpenGL::drawLines()
             for (size_t j = 0; j < model.polygons->count_number_vert; j++)
             {
 //                qDebug("##: %lf\n", model.matrix_3d->matrix[model.polygons[i].vert[j]][0]);
-//                double x = model.matrix_3d->matrix[model.polygons[i].vert[j]][0];
-//                double y = model.matrix_3d->matrix[model.polygons[i].vert[j]][1];
-//                double z = model.matrix_3d->matrix[model.polygons[i].vert[j]][2];
-//                glVertex3f(x, y, z);
-    //            qDebug("x: %f y: %f z: %f", x, y, z);
+                double x = model.matrix_3d->matrix[model.polygons[i].vert[j] - 1][0];
+                double y = model.matrix_3d->matrix[model.polygons[i].vert[j] - 1][1];
+                double z = model.matrix_3d->matrix[model.polygons[i].vert[j] - 1][2];
+                glVertex3f(x, y, z);
+//                qDebug("x: %f y: %f z: %f", x, y, z);
             }
+            // не забыть почистить память
             glEnd();
         }
 }
