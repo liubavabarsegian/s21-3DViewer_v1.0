@@ -1,6 +1,6 @@
 NAME = 3d-viewer
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -std=c11
+CFLAGS = -c -Wall -Wextra -Werror -std=c11
 SRCS = 3d-viewer/*.c
 TEST_SRCS = tests/*.c
 
@@ -18,28 +18,69 @@ ifeq ($(shell uname), Linux)
 	TEST_FLAGS += -lrt -lsubunit
 endif
 
-all: clean_all test install
+# LIBSOURCES = $(wildcard Widget/c_part/parser.c Widget/c_part/render.c Widget/c_part/matrix.c)
+LIBSOURCES = $(wildcard 3d-viewer/parser.c 3d-viewer/s21_affine_transform.c)
+TESTSOURSES = $(wildcard tests/*.c)
+SOURCES = $(LIBSOURCES) $(TESTSOURSES)
+OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
 
-$(NAME):
-	$(CC) $(CFLAGS) -c $(SRCS)
-	ar rc $(NAME) *.o
-	ranlib $(NAME)
-	rm *.o
+ifeq ($(shell uname -s),Linux)
+OPEN_CMD = xdg-open
+OFLAGS =  -lcheck -lsubunit -lm -lrt -lpthread -lgcov -o 
+endif
+ifeq ($(shell uname -s),Darwin) # MacOS
+OPEN_CMD = open
+OFLAGS = -lcheck -lm -lpthread -lgcov -o
+endif
 
-test: rebuild
-	$(CC) $(CFLAGS) -c $(TEST_SRCS)
-	$(CC) $(CFLAGS) *.o $(NAME) $(TEST_FLAGS)  -o test
-	./test
 
-gcov_report: 
-	make clean
-	$(CC) $(CFLAGS) -c $(TEST_SRCS)
-	$(CC)  $(CFLAGS) $(GCOV_FLAGS) -c $(SRCS)
-	$(CC)  $(CFLAGS) $(GCOV_FLAGS) *.o $(TEST_FLAGS) -o test
-	./test
-	lcov -t "test" -o test.info -c -d .
-	genhtml -o report test.info
-	open report/index.html
+# all: clean_all test install
+
+# $(NAME):
+# 	$(CC) $(CFLAGS) -c $(SRCS)
+# 	ar rc $(NAME) *.o
+# 	ranlib $(NAME)
+# 	rm *.o
+# LIBSOURCES = $(wildcard 3d-viewer/s21_*.c)
+TESTSOURSES =  tests/tests.c
+SOURCES = $(TESTSOURSES) $(LIBSOURCES)
+OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
+GCOVFLAGS = -fprofile-arcs -ftest-coverage
+LC = lcov
+EXECUTABLE = test
+LCOVFLAGS = -c -d . -o
+.c.o:
+	$(CC) $(CFLAGS) $< $(GCOVFLAGS) -o $@
+
+test: clean $(OBJECTS)
+	$(CC) $(OBJECTS) $(OFLAGS) $@
+	./$(EXECUTABLE)
+	@rm -rf *.o
+
+
+# test: rebuild
+# 	$(CC) $(CFLAGS) -c $(TEST_SRCS)
+# 	$(CC) $(CFLAGS) *.o $(TEST_FLAGS)  -o test #$(NAME)
+# 	./test
+
+# test: clean $(OBJECTS)
+# 	$(CC) $(OBJECTS) $(OFLAGS) $@
+# 	./test
+
+gcov_report: test
+	$(LC) $(LCOVFLAGS) report.info
+	genhtml report.info
+	# $(OPEN_CMD) ./index.html
+
+# gcov_report: 
+# 	make clean
+# 	$(CC) $(CFLAGS) -c $(TEST_SRCS)
+# 	$(CC)  $(CFLAGS) $(GCOV_FLAGS) -c $(SRCS)
+# 	$(CC)  $(CFLAGS) $(GCOV_FLAGS) *.o $(TEST_FLAGS) -o test
+# 	./test
+# 	lcov -t "test" -o test.info -c -d .
+# 	genhtml -o report test.info
+# 	open report/index.html
 
 install: 
 	make clean
@@ -75,9 +116,12 @@ rebuild: clean $(NAME)
 clean:
 	rm -rf test *.gcov *.css gcov*.html
 	rm -rf *.o *.a *.out  $(SOURCE_DIR)/.qmake.stash  $(SOURCE_DIR)/*.user
-	rm -rf *.gcda *.gcno *.info *.gch
+	rm -rf *.gcda *.gcno *.info *.gch *.html
 	rm -rf test report
 	rm -rf documentation/
+	rm -rf 3d-viewer/*.o
+	rm -rf 3d-viewer/*.gcda 3d-viewer/*.gcno 3d-viewer/*.info 3d-viewer/*.gch 3d-viewer/*.html
+	rm -rf tests/*.gcda tests/*.gcno tests/*.info tests/*.gch tests/*.html tests/*.o
 
 clean_all: 
 	make clean
