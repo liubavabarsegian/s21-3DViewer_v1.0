@@ -31,15 +31,15 @@
 
  
 
-void print_polygon(s21_data *model) {
-  for (size_t i = 0; i < model->count_facets; ++i) {
-    printf("%ld\t", i);
-    for (int j = 0; j < model->polygons[i].count_number_vert; ++j) {
-      printf("%d ", model->polygons[i].vert[j]);
-    }
-    printf("\n");
-  }
-}
+// void print_polygon(s21_data *model) {
+//   for (size_t i = 0; i < model->count_facets; ++i) {
+//     printf("%ld\t", i);
+//     for (int j = 0; j < model->polygons[i].count_number_vert; ++j) {
+//       printf("%d ", model->polygons[i].vert[j]);
+//     }
+//     printf("\n");
+//   }
+// }
 
 void free_vertices_in_facets(s21_data *model) {
   for (size_t i = 0; i < model->count_facets; ++i) {
@@ -57,10 +57,7 @@ int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in
   *blocks_to_free_in_matrix = model->matrix_3d->rows;
   model->matrix_3d->rows = vertice_counter;
   model->count_facets = facet_counter;
-//   print_matrix(*(model->matrix_3d));
-//   printf("\n");
-//   print_polygon(model);
-//  free_vertices_in_facets(model);
+//  free_vertices_in_facets(model);   ///// нужно где-нибудь очистить
   }
   return ExitCode;
 }
@@ -169,7 +166,6 @@ int found_number(int letter, int *count_vertice_in_facet, size_t *facets_counter
   return ExitCode;
 }
 
-// int is_number(char symbol);
 int is_number(int symbol) {
   int ExitCode = 0;
   if (symbol >= '0' && symbol <= '9') {
@@ -220,15 +216,15 @@ int scan_facets(FILE *fp, s21_data *model, size_t *count_facets) {
   return ExitCode;
 }
 
-void print_matrix(s21_matrix matrix_3d) {
-    for(int i = 0; i < matrix_3d.rows; ++i) {
-      printf("%d\t", i);
-        for (int j = 0; j < matrix_3d.columns; ++j) {
-            printf("%lf ", matrix_3d.matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
+// void print_matrix(s21_matrix matrix_3d) {
+//     for(int i = 0; i < matrix_3d.rows; ++i) {
+//       printf("%d\t", i);
+//         for (int j = 0; j < matrix_3d.columns; ++j) {
+//             printf("%lf ", matrix_3d.matrix[i][j]);
+//         }
+//         printf("\n");
+//     }
+// }
 
 int create_matrix(s21_matrix *matrix_3d, int rows, int columns) {
   int ExitCode = OK;
@@ -265,54 +261,5 @@ int realloc_matrix(s21_matrix *matrix_3d, int rows, int columns) {
     }
     matrix_3d->rows = rows;
     matrix_3d->columns = columns;
-  return ExitCode;
-}
-
-
-// #include "s21_matrix.h"
-
-
-#define SUCCESS 1
-#define FAILURE 0
-#define OK 0
-#define INCORRECT_MATRIX 1  //  Ошибка, некорректная матрица
-#define CALCULATION_ERROR \
-
-// 0 - всё хорошо  1 - есть ошибки
-int s21_check_matrix(s21_matrix *A) {
-  int ExitCode = 0;
-  if (A == NULL || A->matrix == NULL || A->rows <= 0 || A->columns <= 0) {
-    ExitCode = 1;
-  }
-  return ExitCode;
-}
-
-/**
- * проверяет совпадают ли размеры у матриц
- * @param A
- * @param B
- * @return 1 - совпадают  0 - не совпадают
- */
-int s21_eq_size(s21_matrix A, s21_matrix B) {
-  return A.rows == B.rows && A.columns == B.columns;
-}
-
-
-
-
-int s21_eq_matrix(s21_matrix *A, s21_matrix *B) {
-  int ExitCode = SUCCESS;
-  if (!s21_check_matrix(A) && !s21_check_matrix(B) && s21_eq_size(*A, *B)) {
-    for (int i = 0; i < A->rows; ++i) {
-      for (int j = 0; j < A->columns; ++j) {
-        if (fabs(A->matrix[i][j] - B->matrix[i][j]) >= 0.0000001) {
-          ExitCode = FAILURE;
-          // break;
-        }
-      }
-    }
-  } else {
-    ExitCode = FAILURE;
-  }
   return ExitCode;
 }

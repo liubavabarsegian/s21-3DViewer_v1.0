@@ -70,7 +70,6 @@ void print_polygon(s21_data *model);
 
 // =================== matrix ===================
 void print_matrix(s21_matrix matrix);
-int s21_eq_matrix(s21_matrix *A, s21_matrix *B);
 int create_matrix(s21_matrix *matrix_3d, int rows, int columns);
 void free_matrix(s21_matrix *matrix_3d, int rows_to_free);
 int realloc_matrix(s21_matrix *matrix_3d, int rows, int columns);
