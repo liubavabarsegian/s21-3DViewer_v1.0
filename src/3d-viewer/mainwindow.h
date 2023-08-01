@@ -89,7 +89,7 @@ public slots:
     /**
     - @brief Функция масштабирования модели
     */
-    void resizeModel();
+    void resizeModel(double scale);
     /**
     - @brief Функция поворотов модели
     */
@@ -98,5 +98,6 @@ public slots:
     - @brief Функция перемещения модели
     */
     void moveModel(double x, double y, double z);
-};
+    void toCentralProjection();
+    void toParallelProjection();};
 #endif // MAINWINDOW_H

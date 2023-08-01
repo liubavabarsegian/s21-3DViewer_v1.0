@@ -12,11 +12,17 @@ OpenGL::OpenGL(QWidget *parent)
 
 OpenGL::~OpenGL()
 {
-    if (model.polygons != NULL)
+    if (model.polygons != NULL) {
+        free_vertices_in_facets(&(model));
+         free(model.polygons);
+       }
+    if (model.matrix_3d != NULL)
     {
-//        if (model.polygons->vert != NULL)
-//            free(model.polygons->vert);
-        free(model.polygons);
+        free_matrix(model.matrix_3d, allocated_blocks);
+    }
+    if (model.matrix_3d)
+    {
+         free(model.matrix_3d);
     }
 }
 
@@ -31,7 +37,7 @@ void OpenGL::paintGL()
 {
     glClearColor(backgroundColor.redF(), backgroundColor.greenF(), backgroundColor.blueF(), 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
+
 //     загрузка в стек единичной матрицы
     glLoadIdentity();
     glRotatef(xRot, 1, 0, 0);

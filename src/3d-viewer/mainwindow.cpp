@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->openFileButton, &QPushButton::clicked, this, &MainWindow::openFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
-    connect(ui->scaleSlider, &QSlider::sliderMoved, this, &MainWindow::resizeModel);
+    connect(ui->scaleInc, &QPushButton::clicked, this, [this] {resizeModel(1.1);});
+    connect(ui->scaleDec, &QPushButton::clicked, this, [this] {resizeModel(0.9);});
     connect(ui->x_dec, &QPushButton::clicked, this, [this]{rotateModel(-5, 0, 0);});
     connect(ui->x_inc, &QPushButton::clicked, this, [this]{rotateModel(5, 0, 0);});
     connect(ui->y_dec, &QPushButton::clicked, this, [this]{rotateModel(0, -5, 0);});
@@ -37,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->y_inc_2, &QPushButton::clicked, this, [this]{moveModel(0, 5, 0);});
     connect(ui->z_dec_2, &QPushButton::clicked, this, [this]{moveModel(0, 0, -5);});
     connect(ui->z_inc_2, &QPushButton::clicked, this, [this]{moveModel(0, 0, 5);});
+    connect(ui->centralRadio, &QRadioButton::toggled, this, &MainWindow::toCentralProjection);
+    connect(ui->parallelRadio, &QRadioButton::toggled, this, &MainWindow::toParallelProjection);
 
     // Загрузка параметров при открытии окна
     QSettings settings("S21", "3DV");
@@ -76,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->viewerWidget->squareVerticles = squreVerticles;
     ui->viewerWidget->repaint();
 
+    if (ui->viewerWidget->file.length() > 0)
+    {
         ui->viewerWidget->model.count_vert = 10;
         ui->viewerWidget->model.count_facets = 10;
         ui->viewerWidget->model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
@@ -94,16 +99,12 @@ MainWindow::MainWindow(QWidget *parent)
             }
           }
         }
+    }
+
 }
 
 MainWindow::~MainWindow()
 {
-//    if (ui->viewerWidget->model.polygons != NULL) {
-//         free(ui->viewerWidget->model.polygons);
-//         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
-//         free(ui->viewerWidget->model.matrix_3d);
-//       }
-
 
     // Сохранение параметров при закрытии окна
     QSettings settings("S21", "3DV");
@@ -205,13 +206,21 @@ void MainWindow::openFile()
 {
     ui->viewerWidget->file = ui->inputFile->text();
 
-//    if (ui->viewerWidget->model.polygons != NULL) {
-//         free(ui->viewerWidget->model.polygons);
-//         free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
-//         free(ui->viewerWidget->model.matrix_3d);
-//       }
 
-    //    s21_data model;
+    if (ui->viewerWidget->model.polygons != NULL) {
+        free_vertices_in_facets(&(ui->viewerWidget->model));
+         free(ui->viewerWidget->model.polygons);
+       }
+    if (ui->viewerWidget->model.matrix_3d != NULL)
+    {
+        free_matrix(ui->viewerWidget->model.matrix_3d, ui->viewerWidget->allocated_blocks);
+    }
+    if (ui->viewerWidget->model.matrix_3d)
+    {
+         free(ui->viewerWidget->model.matrix_3d);
+    }
+
+
         ui->viewerWidget->model.count_vert = 10;
         ui->viewerWidget->model.count_facets = 10;
         ui->viewerWidget->model.matrix_3d = (s21_matrix *)malloc(sizeof(s21_matrix));
@@ -263,27 +272,31 @@ void MainWindow::save() {
   }
 }
 
-void MainWindow::resizeModel()
+void MainWindow::resizeModel(double scale)
 {
-    double scale = ui->scaleSlider->value();
     resize_model(&(ui->viewerWidget->model), scale, scale, scale);
     ui->viewerWidget->repaint();
 }
 
 void MainWindow::rotateModel(double x, double y, double z)
 {
-//    double xrotate = ui->XRotateSlider->value();
-//    double yrotate = ui->YRotateSlider->value();
-//    double zrotate = ui->ZRotateSlider->value();
-    print_matrix(*(ui->viewerWidget->model.matrix_3d));
-    printf("\n");
     rotation(&(ui->viewerWidget->model), x, y, z);
     ui->viewerWidget->repaint();
-    print_matrix(*(ui->viewerWidget->model.matrix_3d));
 }
 
 void MainWindow::moveModel(double x, double y, double z)
 {
     moving(&(ui->viewerWidget->model), x, y, z);
+    ui->viewerWidget->repaint();
+}
+
+void MainWindow::toCentralProjection()
+{
+    ui->viewerWidget->repaint();
+}
+
+void MainWindow::toParallelProjection()
+{
+    rotation(&(ui->viewerWidget->model), 0, -90, 0);
     ui->viewerWidget->repaint();
 }

@@ -18,30 +18,21 @@ ifeq ($(shell uname), Linux)
 	TEST_FLAGS += -lrt -lsubunit
 endif
 
-# LIBSOURCES = $(wildcard Widget/c_part/parser.c Widget/c_part/render.c Widget/c_part/matrix.c)
 LIBSOURCES = $(wildcard 3d-viewer/parser.c 3d-viewer/s21_affine_transform.c)
 TESTSOURSES = $(wildcard tests/*.c)
 SOURCES = $(LIBSOURCES) $(TESTSOURSES)
 OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
 
 ifeq ($(shell uname -s),Linux)
-OPEN_CMD = xdg-open
-OFLAGS =  -lcheck -lsubunit -lm -lrt -lpthread -lgcov -o 
+	OPEN_CMD = xdg-open
+	OFLAGS =  -lcheck -lsubunit -lm -lrt -lpthread -lgcov -o 
 endif
+
 ifeq ($(shell uname -s),Darwin) # MacOS
-OPEN_CMD = open
-OFLAGS = -lcheck -lm -lpthread -lgcov -o
+	OPEN_CMD = open
+	OFLAGS = -lcheck -lm -lpthread -lgcov -o
 endif
 
-
-# all: clean_all test install
-
-# $(NAME):
-# 	$(CC) $(CFLAGS) -c $(SRCS)
-# 	ar rc $(NAME) *.o
-# 	ranlib $(NAME)
-# 	rm *.o
-# LIBSOURCES = $(wildcard 3d-viewer/s21_*.c)
 TESTSOURSES =  tests/tests.c
 SOURCES = $(TESTSOURSES) $(LIBSOURCES)
 OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
@@ -57,30 +48,10 @@ test: clean $(OBJECTS)
 	./$(EXECUTABLE)
 	@rm -rf *.o
 
-
-# test: rebuild
-# 	$(CC) $(CFLAGS) -c $(TEST_SRCS)
-# 	$(CC) $(CFLAGS) *.o $(TEST_FLAGS)  -o test #$(NAME)
-# 	./test
-
-# test: clean $(OBJECTS)
-# 	$(CC) $(OBJECTS) $(OFLAGS) $@
-# 	./test
-
 gcov_report: test
 	$(LC) $(LCOVFLAGS) report.info
 	genhtml report.info
 	# $(OPEN_CMD) ./index.html
-
-# gcov_report: 
-# 	make clean
-# 	$(CC) $(CFLAGS) -c $(TEST_SRCS)
-# 	$(CC)  $(CFLAGS) $(GCOV_FLAGS) -c $(SRCS)
-# 	$(CC)  $(CFLAGS) $(GCOV_FLAGS) *.o $(TEST_FLAGS) -o test
-# 	./test
-# 	lcov -t "test" -o test.info -c -d .
-# 	genhtml -o report test.info
-# 	open report/index.html
 
 install: 
 	make clean
