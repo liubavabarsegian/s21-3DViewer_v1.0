@@ -1,13 +1,14 @@
 #ifndef SRC_S21_AFFINE_TRANSFORM_H_
 #define SRC_S21_AFFINE_TRANSFORM_H_
 #include <stdlib.h>
+
 #include "parser.h"
 
 #define RETURN_OK 0
 #define RETURN_WRONG_MATRIX 1
 #define RETURN_CALC_ERROR 2
 
-//int s21_transpose(s21_matrix* A, s21_matrix* result);
+// int s21_transpose(s21_matrix* A, s21_matrix* result);
 /**
  - @brief Функция создания матрицы.
  - @param rows - количество строк
@@ -29,7 +30,7 @@ void mult_matrix(double** A, double** B, double** result);
  - @param A - указатель на матрицу
  - @result удаление матрицы с освобождением памяти
  */
-void s21_remove_matrix(s21_matrix *A);
+void s21_remove_matrix(s21_matrix* A);
 
 /**
  - @brief Функция создания матрицы афинных преобразований.
@@ -73,7 +74,7 @@ s21_matrix create_z_rotation_matrix(double z);
  - @param data - указатель на данные
  - @result выполняет перемещение модели
  */
-void moving(s21_data *data, double x, double y, double z);
+void moving(s21_data* data, double x, double y, double z);
 /**
  - @brief Функция масштабирования.
  - @param x - координата "x"
@@ -82,7 +83,7 @@ void moving(s21_data *data, double x, double y, double z);
  - @param data - указатель на данные
  - @result выполняет масштабирование модели
  */
-void resize_model(s21_data *data, double x, double y, double z);
+void resize_model(s21_data* data, double x, double y, double z);
 /**
  - @brief Функция вращения.
  - @param x - координата "x"
@@ -91,6 +92,6 @@ void resize_model(s21_data *data, double x, double y, double z);
  - @param data - указатель на данные
  - @result выполняет вращение модели
  */
-void rotation(s21_data *data, double x, double y, double z);
+void rotation(s21_data* data, double x, double y, double z);
 
 #endif  // SRC_S21_AFFINE_TRANSFORM_H_

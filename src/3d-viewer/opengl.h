@@ -1,19 +1,20 @@
 #ifndef OPENGL_H
 #define OPENGL_H
 
-#include <QtOpenGL>
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions>
 #include <QFile>
+#include <QOpenGLFunctions>
+#include <QOpenGLWidget>
+#include <QtOpenGL>
 
 //#include "parser.h"
 extern "C" {
-    #include "parser.h"
-    #include "s21_affine_transform.h"
+#include "parser.h"
+#include "s21_affine_transform.h"
 };
 
-//extern "C" int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in_matrix);
-//extern "C" int create_matrix(s21_matrix *matrix_3d, int rows, int columns);
+// extern "C" int open_and_parse(s21_data *model, const char *filename, int
+// *blocks_to_free_in_matrix); extern "C" int create_matrix(s21_matrix
+// *matrix_3d, int rows, int columns);
 
 /**
  - @brief Класс виджета отрисовки модели
@@ -28,44 +29,44 @@ extern "C" {
  - @param model - "структура модели"
  */
 
-class OpenGL : public QOpenGLWidget
-{
-    Q_OBJECT;
-public:
-    OpenGL(QWidget *parent = nullptr);
-    ~OpenGL();
-    /**
-    - @brief Функция, рисующая модель
-    */
-    virtual void paintGL() override;
-    int pointSize;
-    int edgeSize;
-    bool noVerticles;
-    bool circleVerticles;
-    bool squareVerticles;
-    bool dashed;
-    QColor verticlesColor;
-    QColor edgesColor;
-    QColor backgroundColor;
-    QString file;
-    s21_data model;
-    int allocated_blocks;
-    /**
-    - @brief Функция записи экрана
-    */
-    void record();
-private:
-    float xRot, yRot, zRot;
-    QPoint mousePosition;
-    virtual void initializeGL() override;
-    virtual void resizeGL(int w, int h) override;
-    virtual void mousePressEvent(QMouseEvent *) override;
-    virtual void mouseMoveEvent(QMouseEvent  *) override;
-    void drawModel(float a);
-    void drawVerticles();
-    void drawLines();
-public slots:
+class OpenGL : public QOpenGLWidget {
+  Q_OBJECT;
 
+ public:
+  OpenGL(QWidget *parent = nullptr);
+  ~OpenGL();
+  /**
+  - @brief Функция, рисующая модель
+  */
+  virtual void paintGL() override;
+  int pointSize;
+  int edgeSize;
+  bool noVerticles;
+  bool circleVerticles;
+  bool squareVerticles;
+  bool dashed;
+  QColor verticlesColor;
+  QColor edgesColor;
+  QColor backgroundColor;
+  QString file;
+  s21_data model;
+  int allocated_blocks;
+  /**
+  - @brief Функция записи экрана
+  */
+  void record();
+
+ private:
+  float xRot, yRot, zRot;
+  QPoint mousePosition;
+  virtual void initializeGL() override;
+  virtual void resizeGL(int w, int h) override;
+  virtual void mousePressEvent(QMouseEvent *) override;
+  virtual void mouseMoveEvent(QMouseEvent *) override;
+  void drawModel(float a);
+  void drawVerticles();
+  void drawLines();
+ public slots:
 };
 
-#endif // OPENGL_H
+#endif  // OPENGL_H

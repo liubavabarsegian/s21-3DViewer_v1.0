@@ -2,9 +2,8 @@
 #define PARSER_H_
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 /**
  - @brief Структура для хранения матриц.
@@ -13,9 +12,9 @@
  - @param columns - количество столбцов
  */
 typedef struct matrix {
-    double **matrix;
-    int rows;
-    int columns;
+  double **matrix;
+  int rows;
+  int columns;
 } s21_matrix;
 
 /**
@@ -24,8 +23,8 @@ typedef struct matrix {
  - @param count_number_vert - количество вершин, необходимых для соединения
  */
 typedef struct facets {
-    int *vert;
-    int count_number_vert;
+  int *vert;
+  int count_number_vert;
 } s21_facets;
 
 /**
@@ -36,28 +35,29 @@ typedef struct facets {
  - @param polygons - структура хранения полигонов
  */
 typedef struct data {
-    unsigned count_vert;
-    unsigned count_facets;
-    s21_matrix *matrix_3d;
-    s21_facets *polygons;
+  unsigned count_vert;
+  unsigned count_facets;
+  s21_matrix *matrix_3d;
+  s21_facets *polygons;
 } s21_data;
 
-
-#define  OK 0
+#define OK 0
 #define ERROR 404
 #define IS_NOT_A_NUMBER 123
 
-int parser(const char *filename, s21_data *model, size_t *count_vert, size_t *count_facets);
+int parser(const char *filename, s21_data *model, size_t *count_vert,
+           size_t *count_facets);
 
 void free_vertices_in_facets(s21_data *model);
 
-int open_and_parse(s21_data *model, const char *filename, int *blocks_to_free_in_matrix);
+int open_and_parse(s21_data *model, const char *filename,
+                   int *blocks_to_free_in_matrix);
 int scan_vertices(FILE *fp, s21_data *model, size_t *count_vert);
 int scan_facets(FILE *fp, s21_data *model, size_t *count_of_facet);
 
-
-int found_number(int letter, int *count_vertice_in_facet, size_t *facets_counter, FILE *fp, s21_data *model, int *flag_end_of_line);
-
+int found_number(int letter, int *count_vertice_in_facet,
+                 size_t *facets_counter, FILE *fp, s21_data *model,
+                 int *flag_end_of_line);
 
 int scan_vertice(size_t *vertices_counter, char *line, s21_data *model);
 
