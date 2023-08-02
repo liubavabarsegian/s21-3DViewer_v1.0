@@ -14,9 +14,9 @@ OpenGL::~OpenGL() {
   //        free_vertices_in_facets(&(model));
   //         free(model.polygons);
   //       }
-  if (model.matrix_3d != NULL) {
-    free_matrix(model.matrix_3d, allocated_blocks);
-  }
+//  if (model.matrix_3d != NULL) {
+//    free_matrix(model.matrix_3d, allocated_blocks);
+//  }
   //    if (model.matrix_3d)
   //    {
   //         free(model.matrix_3d);
